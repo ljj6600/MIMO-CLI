@@ -1,4 +1,4 @@
-import { execFile } from 'node:child_process';
+import { exec } from 'node:child_process';
 import { defineCommand } from '../command';
 import { VERSION } from '../version';
 import { t } from '../i18n';
@@ -9,13 +9,12 @@ interface NpmLatestVersion {
   version: string;
 }
 
-function execAsync(cmd: string, args: string[]): Promise<string> {
+function execAsync(command: string): Promise<string> {
   return new Promise((resolve, reject) => {
-    const child = execFile(cmd, args, { timeout: 60_000 }, (err, stdout, stderr) => {
+    exec(command, { timeout: 120_000 }, (err, stdout, stderr) => {
       if (err) return reject(err);
-      resolve(stdout.trim());
+      resolve((stdout || '').trim());
     });
-    child.on('error', reject);
   });
 }
 
@@ -66,21 +65,14 @@ export const updateCommand = defineCommand({
     process.stderr.write(t('update.updating', { version: latestVersion }) + '\n');
 
     try {
-      const output = await execAsync('npm', ['update', '-g', 'mimo-cli']);
+      const output = await execAsync('npm install -g mimo-cli@latest');
       if (output) {
         process.stderr.write(output + '\n');
       }
       process.stderr.write(t('update.success', { version: latestVersion }) + '\n');
     } catch {
-      // npm update 失败，尝试 npm install
-      process.stderr.write(t('update.updateFailed') + '\n');
-      try {
-        await execAsync('npm', ['install', '-g', `mimo-cli@${latestVersion}`]);
-        process.stderr.write(t('update.success', { version: latestVersion }) + '\n');
-      } catch {
-        process.stderr.write(t('update.installFailed') + '\n');
-        process.stderr.write(t('update.manualHint') + '\n');
-      }
+      process.stderr.write(t('update.installFailed') + '\n');
+      process.stderr.write(t('update.manualHint') + '\n');
     }
   },
 });
