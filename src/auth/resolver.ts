@@ -34,9 +34,19 @@ export function resolveCredential(config: Config): ResolvedCredential {
     return { token: envKey, method: 'api-key', source: 'env' };
   }
 
-  // 3. API key from config file
+  // 3. 根据 active_key 选择配置文件中的 Key
+  if (config.activeKey === 'sk' && config.fileSkApiKey) {
+    return { token: config.fileSkApiKey, method: 'api-key', source: 'config.json' };
+  }
+
+  // 4. 默认使用 tp Key（api_key），如果不存在则回退到 sk_api_key
   if (config.fileApiKey) {
     return { token: config.fileApiKey, method: 'api-key', source: 'config.json' };
+  }
+
+  // 5. 如果只有 sk_api_key，也使用它
+  if (config.fileSkApiKey) {
+    return { token: config.fileSkApiKey, method: 'api-key', source: 'config.json' };
   }
 
   // 错误提示中使用脱敏示例，不泄露真实 key

@@ -10,14 +10,18 @@ export const authLogoutCommand = defineCommand({
   async run(config: Config, _flags: Record<string, unknown>): Promise<void> {
     const data = readConfigFile() as Record<string, unknown>;
 
-    if (!data.api_key) {
+    if (!data.api_key && !data.sk_api_key) {
       process.stderr.write(t('auth.logoutNoKey') + '\n');
       return;
     }
 
     delete data.api_key;
+    delete data.sk_api_key;
+    delete data.active_key;
     await writeConfigFile(data);
     config.fileApiKey = undefined;
+    config.fileSkApiKey = undefined;
+    config.activeKey = undefined;
     process.stderr.write(t('auth.logoutDone') + '\n');
   },
 });

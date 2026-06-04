@@ -8,6 +8,8 @@ import { t } from '../../i18n';
 
 const ALLOWED_KEYS = new Set([
   'api_key',
+  'sk_api_key',
+  'active_key',
   'base_url',
   'output',
   'timeout',
@@ -72,13 +74,26 @@ export const configSetCommand = defineCommand({
       data[key] = num;
     } else if (key === 'output' && value !== 'text' && value !== 'json') {
       throw new CLIError(t('config.setOutput'), ExitCode.USAGE);
+    } else if (key === 'active_key' && value !== 'tp' && value !== 'sk') {
+      throw new CLIError(t('config.invalidActiveKey'), ExitCode.USAGE);
     } else {
       data[key] = value;
     }
 
+    // 当切换 active_key 时，同步更新 base_url
+    if (key === 'active_key') {
+      const targetKey = value === 'sk' ? data.sk_api_key : data.api_key;
+      if (typeof targetKey === 'string') {
+        const inferred = targetKey.startsWith('tp-')
+          ? 'https://token-plan-cn.xiaomimimo.com/v1'
+          : 'https://api.xiaomimimo.com/v1';
+        data.base_url = inferred;
+      }
+    }
+
     await writeConfigFile(data);
     // 输出时对敏感字段做脱敏处理
-    const displayValue = key === 'api_key' ? maskApiKey(String(value)) : value;
+    const displayValue = (key === 'api_key' || key === 'sk_api_key') ? maskApiKey(String(value)) : value;
     process.stderr.write(t('config.setDone') + ' ' + key + ' = ' + displayValue + '\n');
   },
 });

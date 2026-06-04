@@ -1,11 +1,86 @@
+import { execFile } from 'node:child_process';
 import { defineCommand } from '../command';
+import { VERSION } from '../version';
 import { t } from '../i18n';
+
+const REGISTRY_URL = 'https://registry.npmjs.org/mimo-cli/latest';
+
+interface NpmLatestVersion {
+  version: string;
+}
+
+function execAsync(cmd: string, args: string[]): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const child = execFile(cmd, args, { timeout: 60_000 }, (err, stdout, stderr) => {
+      if (err) return reject(err);
+      resolve(stdout.trim());
+    });
+    child.on('error', reject);
+  });
+}
+
+function compareVersions(a: string, b: string): number {
+  const pa = a.replace(/^v/, '').split('.').map(Number);
+  const pb = b.replace(/^v/, '').split('.').map(Number);
+  for (let i = 0; i < 3; i++) {
+    if ((pa[i] ?? 0) > (pb[i] ?? 0)) return 1;
+    if ((pa[i] ?? 0) < (pb[i] ?? 0)) return -1;
+  }
+  return 0;
+}
 
 export const updateCommand = defineCommand({
   name: 'update',
   description: 'cmd.update.desc',
   usage: 'mimo update',
   async run(): Promise<void> {
-    process.stderr.write(t('update.notImplemented'));
+    // 1. 查询 npm registry 最新版本
+    process.stderr.write(t('update.checking') + '\n');
+
+    let latestVersion: string;
+    try {
+      const resp = await fetch(REGISTRY_URL);
+      if (!resp.ok) {
+        throw new Error(`HTTP ${resp.status}`);
+      }
+      const data = await resp.json() as NpmLatestVersion;
+      latestVersion = data.version;
+    } catch {
+      process.stderr.write(t('update.checkFailed') + '\n');
+      process.stderr.write(t('update.manualHint') + '\n');
+      return;
+    }
+
+    const current = VERSION.replace(/^v/, '');
+
+    // 2. 比较版本
+    process.stderr.write(t('update.currentVersion', { version: current }) + '\n');
+    process.stderr.write(t('update.latestVersion', { version: latestVersion }) + '\n');
+
+    if (compareVersions(latestVersion, current) <= 0) {
+      process.stderr.write(t('update.alreadyLatest') + '\n');
+      return;
+    }
+
+    // 3. 执行更新
+    process.stderr.write(t('update.updating', { version: latestVersion }) + '\n');
+
+    try {
+      const output = await execAsync('npm', ['update', '-g', 'mimo-cli']);
+      if (output) {
+        process.stderr.write(output + '\n');
+      }
+      process.stderr.write(t('update.success', { version: latestVersion }) + '\n');
+    } catch {
+      // npm update 失败，尝试 npm install
+      process.stderr.write(t('update.updateFailed') + '\n');
+      try {
+        await execAsync('npm', ['install', '-g', `mimo-cli@${latestVersion}`]);
+        process.stderr.write(t('update.success', { version: latestVersion }) + '\n');
+      } catch {
+        process.stderr.write(t('update.installFailed') + '\n');
+        process.stderr.write(t('update.manualHint') + '\n');
+      }
+    }
   },
 });

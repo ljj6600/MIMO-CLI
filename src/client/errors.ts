@@ -76,6 +76,8 @@ export function wrapApiError(err: unknown): CLIError {
 export interface ClientConfig {
   apiKey?: string;
   fileApiKey?: string;
+  fileSkApiKey?: string;
+  activeKey?: 'tp' | 'sk';
   baseURL?: string;
   baseUrl?: string; // Config 类型使用 baseUrl（小写 u）
   timeout?: number;
@@ -91,6 +93,8 @@ function resolveApiKey(config?: Partial<ClientConfig>): string {
     const partialConfig: Partial<Config> = {
       apiKey: config.apiKey,
       fileApiKey: config.fileApiKey,
+      fileSkApiKey: config.fileSkApiKey,
+      activeKey: config.activeKey,
     };
     try {
       return resolveCredential(partialConfig as Config).token;
@@ -132,7 +136,10 @@ function resolveBaseURL(config?: Partial<ClientConfig>): string | undefined {
   }
 
   // 根据 API Key 前缀自动推断 base URL
-  const apiKey = config?.apiKey || config?.fileApiKey;
+  const activeKey = config?.activeKey;
+  const apiKey = activeKey === 'sk'
+    ? (config?.fileSkApiKey || config?.apiKey || config?.fileApiKey)
+    : (config?.apiKey || config?.fileApiKey || config?.fileSkApiKey);
   if (apiKey) {
     const inferred = inferBaseUrlFromKey(apiKey);
     if (inferred) {

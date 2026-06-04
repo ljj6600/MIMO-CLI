@@ -253,11 +253,22 @@ const translations: Record<string, Record<Locale, string>> = {
   'config.setTimeout': { zh: 'timeout 必须为正数。', en: 'timeout must be a positive number.' },
   'config.setOutput': { zh: 'output 必须为 "text" 或 "json"。', en: 'output must be "text" or "json".' },
   'config.setDone': { zh: '已设置', en: 'Set' },
+  'config.invalidActiveKey': { zh: 'active_key 必须为 "tp" 或 "sk"。', en: 'active_key must be "tp" or "sk".' },
+  'config.switchKey': { zh: '已切换为{type} Key（{url}）', en: 'Switched to {type} key ({url})' },
   'config.corrupted': { zh: '警告：配置文件已损坏（', en: 'Warning: config file is corrupted (' },
   'config.corruptedHint': { zh: '）。运行 "mimo config set" 重置。\n', en: '). Run \'mimo config set\' to reset.\n' },
 
   // ---- Update ----
-  'update.notImplemented': { zh: '自动更新尚未实现，请从 GitHub 重新安装。\n', en: 'Self-update is not yet implemented. Please reinstall from GitHub.\n' },
+  'update.checking': { zh: '正在检查更新...', en: 'Checking for updates...' },
+  'update.checkFailed': { zh: '无法检查更新，请检查网络连接。', en: 'Failed to check for updates. Please check your network connection.' },
+  'update.currentVersion': { zh: '当前版本：{version}', en: 'Current version: {version}' },
+  'update.latestVersion': { zh: '最新版本：{version}', en: 'Latest version: {version}' },
+  'update.alreadyLatest': { zh: '已是最新版本，无需更新。', en: 'Already up to date.' },
+  'update.updating': { zh: '正在更新至 v{version}...', en: 'Updating to v{version}...' },
+  'update.success': { zh: '更新成功！已升级至 v{version}。', en: 'Update successful! Upgraded to v{version}.' },
+  'update.updateFailed': { zh: 'npm update 失败，尝试 npm install...', en: 'npm update failed, trying npm install...' },
+  'update.installFailed': { zh: '自动更新失败。', en: 'Auto-update failed.' },
+  'update.manualHint': { zh: '请手动执行：npm install -g mimo-cli@latest', en: 'Please run manually: npm install -g mimo-cli@latest' },
 
   // ---- REPL ----
   'repl.intro': { zh: 'MiMo 交互对话 — 输入 /exit 退出，/clear 清空对话', en: 'MiMo REPL — type /exit to quit, /clear to reset' },

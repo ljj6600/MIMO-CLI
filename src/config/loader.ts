@@ -40,6 +40,8 @@ export function loadConfig(flags: GlobalFlags): Config {
 
   const apiKey = flags.apiKey || undefined;
   const fileApiKey = file.api_key;
+  const fileSkApiKey = file.sk_api_key;
+  const activeKey = file.active_key || 'tp'; // 默认使用 tp Key
 
   // 当 --api-key flag 传入时，根据 key 前缀自动推断 base URL
   let baseUrl: string;
@@ -52,7 +54,13 @@ export function loadConfig(flags: GlobalFlags): Config {
     const inferred = inferBaseUrlFromKey(apiKey);
     baseUrl = inferred || file.base_url || DEFAULT_BASE_URL;
   } else {
-    baseUrl = file.base_url || DEFAULT_BASE_URL;
+    // 根据 active_key 选择对应的 base URL
+    if (activeKey === 'sk' && fileSkApiKey) {
+      const inferred = inferBaseUrlFromKey(fileSkApiKey);
+      baseUrl = inferred || file.base_url || DEFAULT_BASE_URL;
+    } else {
+      baseUrl = file.base_url || DEFAULT_BASE_URL;
+    }
   }
 
   const output: OutputFormat = detectOutputFormat(
@@ -67,6 +75,8 @@ export function loadConfig(flags: GlobalFlags): Config {
   return {
     apiKey,
     fileApiKey,
+    fileSkApiKey,
+    activeKey,
     configPath: getConfigPath(),
     baseUrl,
     output,

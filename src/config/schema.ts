@@ -1,5 +1,7 @@
 export interface ConfigFile {
   api_key?: string;
+  sk_api_key?: string;
+  active_key?: 'tp' | 'sk';
   base_url?: string;
   output?: 'text' | 'json';
   timeout?: number;
@@ -15,6 +17,8 @@ export function parseConfigFile(raw: unknown): ConfigFile {
   const out: ConfigFile = {};
 
   if (typeof obj.api_key === 'string') out.api_key = obj.api_key;
+  if (typeof obj.sk_api_key === 'string') out.sk_api_key = obj.sk_api_key;
+  if (obj.active_key === 'tp' || obj.active_key === 'sk') out.active_key = obj.active_key;
   if (typeof obj.base_url === 'string' && obj.base_url.startsWith('http')) out.base_url = obj.base_url;
   if (typeof obj.output === 'string' && VALID_OUTPUTS.has(obj.output)) out.output = obj.output as ConfigFile['output'];
   if (typeof obj.timeout === 'number' && obj.timeout > 0) out.timeout = obj.timeout;
@@ -27,6 +31,8 @@ export function parseConfigFile(raw: unknown): ConfigFile {
 export interface Config {
   apiKey?: string;
   fileApiKey?: string;
+  fileSkApiKey?: string;
+  activeKey?: 'tp' | 'sk';
   configPath?: string;
   baseUrl: string;
   output: 'text' | 'json';

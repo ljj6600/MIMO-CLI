@@ -9,7 +9,7 @@ import { ExitCode } from '../errors/codes';
 import { t } from '../i18n';
 
 export async function ensureAuth(config: Config): Promise<void> {
-  if (config.apiKey || config.fileApiKey) return;
+  if (config.apiKey || config.fileApiKey || config.fileSkApiKey) return;
 
   const envKey = process.env.MIMO_API_KEY;
   if (envKey) return;
@@ -29,7 +29,16 @@ export async function ensureAuth(config: Config): Promise<void> {
 }
 
 export async function persistApiKey(config: Config, key: string): Promise<void> {
-  const data: Record<string, unknown> = { ...(readConfigFile() as Record<string, unknown>), api_key: key };
+  const data: Record<string, unknown> = { ...(readConfigFile() as Record<string, unknown>) };
+
+  // 根据 Key 前缀决定存储到哪个字段
+  if (key.startsWith('tp-')) {
+    data.api_key = key;
+    data.active_key = 'tp';
+  } else {
+    data.sk_api_key = key;
+    data.active_key = 'sk';
+  }
 
   // 根据 API Key 前缀自动设置对应的 base URL（切换 Key 类型时始终更新）
   const inferredBaseUrl = inferBaseUrlFromKey(key);
@@ -42,7 +51,9 @@ export async function persistApiKey(config: Config, key: string): Promise<void> 
   }
 
   await writeConfigFile(data);
-  config.fileApiKey = key;
+  config.fileApiKey = data.api_key as string | undefined;
+  config.fileSkApiKey = data.sk_api_key as string | undefined;
+  config.activeKey = data.active_key as 'tp' | 'sk';
 
   // 输出时使用脱敏格式，避免泄露完整 API Key
   const keyType = key.startsWith('tp-') ? 'TokenPlan' : '按量计费';
