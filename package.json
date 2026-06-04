@@ -1,0 +1,48 @@
+{
+  "name": "mimo-cli",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "MiMo AI Platform Command Line Interface",
+  "bin": {
+    "mimo": "dist/mimo.mjs"
+  },
+  "files": [
+    "dist/"
+  ],
+  "main": "./dist/sdk.mjs",
+  "types": "./dist/sdk.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/sdk.d.ts",
+      "import": "./dist/sdk.mjs"
+    },
+    "./sdk": {
+      "types": "./dist/sdk.d.ts",
+      "import": "./dist/sdk.mjs"
+    }
+  },
+  "scripts": {
+    "dev": "bun run src/main.ts",
+    "build": "bun run build.ts",
+    "build:dev": "bun run build.ts --dev",
+    "lint": "eslint src/",
+    "typecheck": "tsc --noEmit",
+    "test": "bun test",
+    "test:watch": "bun test --watch",
+    "prepublishOnly": "bun run build"
+  },
+  "dependencies": {
+    "openai": "^4.95.0",
+    "@clack/prompts": "^0.7.0",
+    "es-toolkit": "^1.46.1",
+    "undici": "^6.21.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "@types/bun": "latest",
+    "bun-plugin-dts": "^0.4.0",
+    "eslint": "^9.24.0",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.58.0"
+  }
+}
