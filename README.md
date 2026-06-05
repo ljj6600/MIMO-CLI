@@ -77,6 +77,22 @@ npx skills add ljj6600/MIMO-CLI -y -g
 
 SKILL 会自动 symlink 到 `~/.claude/skills/`、`~/.openclaw/skills/` 等目录，各 Agent 下次启动即可识别。仅在终端直接使用 mimo 命令的用户可以跳过此步。
 
+## 新用户福利
+
+如果您是 **3 天内** 注册 Xiaomi MiMo 开放平台的新用户，可享受专属福利：
+
+> 🎁 通过邀请码注册，即得 **¥10 API 体验金**（40 天有效）
+
+**三步快速领取：**
+
+1. 点击注册链接：[https://platform.xiaomimimo.com?ref=6MEWY6](https://platform.xiaomimimo.com?ref=6MEWY6)
+2. 完成账号注册
+3. 登录后，在控制台左下方「邀请码」入口处填入：`6MEWY6`
+
+体验金可用于 MiMo 全部模型能力，包括对话、多模态理解、语音识别与合成等。
+
+---
+
 ## 快速开始
 
 ### 开箱即用
