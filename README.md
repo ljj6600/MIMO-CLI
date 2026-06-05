@@ -315,7 +315,7 @@ API 客户端层 (Client)      ← OpenAI 兼容协议，一键切换
 MiMo AI Platform API      ← 小米大模型能力
 ```
 
-详见 [CODE_WIKI.md](CODE_WIKI.md)。
+详见项目仓库中的 `CODE_WIKI.md`（本地开发目录）。
 
 ## License
 
