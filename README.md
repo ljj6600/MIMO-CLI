@@ -1,7 +1,13 @@
 <p align="center">
-  <img src="https://img.shields.io/npm/v/mimo-cli.svg" alt="npm version">
-  <img src="https://img.shields.io/github/license/ljj6600/MIMO-CLI" alt="License">
-  <img src="https://img.shields.io/badge/node-%3E%3D18-brightgreen" alt="Node >= 18">
+  <a href="https://www.npmjs.com/package/mimo-cli">
+    <img src="https://img.shields.io/npm/v/mimo-cli.svg" alt="npm version">
+  </a>
+  <a href="LICENSE">
+    <img src="https://img.shields.io/github/license/ljj6600/MIMO-CLI" alt="License">
+  </a>
+  <a href="https://nodejs.org/">
+    <img src="https://img.shields.io/badge/node-%3E%3D18-brightgreen" alt="Node >= 18">
+  </a>
 </p>
 
 <h1 align="center">MiMo CLI</h1>
@@ -21,38 +27,57 @@
 
 ---
 
-## 安装
+## 安装和配置 CLI
+
+### 通过 Agent 安装
+
+请将以下提示词复制给你的 AI Agent（OpenClaw、Claude Code、Cursor、MaxClaw、AutoClaw、KimiClaw、TRAE、OpenCode 等），它会引导你完成安装、登录与 SKILL 接入（请将 `sk-xxxxx` 替换为你的实际密钥）：
+
+```
+请帮我接入 MiMo CLI（`https://github.com/ljj6600/MIMO-CLI`），按以下三步完成安装与配置：
+
+1. 全局安装 CLI：执行 `npm install -g mimo-cli`，完成后用 `mimo --version` 验证
+2. 登录并配置 API Key：执行 `mimo auth login --api-key sk-xxxxx`
+3. 安装官方 SKILL：执行 `npx skills add ljj6600/MIMO-CLI -y -g`
+```
+
+### 手动安装
+
+#### 1. 安装 MiMo-CLI
+
+在终端运行以下命令完成全局安装：
 
 ```bash
-# 全局安装，在任意终端使用
 npm install -g mimo-cli
-
-# 安装后即可使用
-mimo --version
 ```
 
 > 需要 [Node.js](https://nodejs.org/) 18+。
->
-> 需要 MiMo API Key — 前往 [MiMo 平台](https://platform.xiaomimimo.com) 获取：
-> - [TokenPlan API Key](https://platform.xiaomimimo.com/console/plan-manage)（`tp-` 前缀）
-> - [按量计费 API Key](https://platform.xiaomimimo.com/console/api-keys)（`sk-` 前缀）
 
-## 快速开始
+#### 2. 登录 API Key
 
-### 认证
+使用 API Key 完成鉴权（请将 `sk-xxxxx` 替换为你的 Key）：
 
 ```bash
-# 交互式输入
-mimo auth login
-
-# 或直接传入（自动识别 Key 类型）
-mimo auth login --api-key sk-xxxxx       # 按量计费 Key
-mimo auth login --api-key tp-xxxxx       # TokenPlan Key
+mimo auth login --api-key sk-xxxxx
 ```
 
 支持两种 Key 类型，前往 [MiMo 平台](https://platform.xiaomimimo.com) 获取：
 - **TokenPlan Key**（`tp-` 前缀）→ [申请地址](https://platform.xiaomimimo.com/console/plan-manage)，自动配置 `https://token-plan-cn.xiaomimimo.com/v1`
 - **按量计费 Key**（`sk-` 前缀）→ [申请地址](https://platform.xiaomimimo.com/console/api-keys)，自动配置 `https://api.xiaomimimo.com/v1`
+
+最新版 mimo-cli 会根据 Key 前缀自动检测并配置对应的 Base URL。
+
+#### 3. 安装 SKILL（可选，推荐 Agent 用户）
+
+若你要在 Claude Code、OpenClaw、Cursor 等 AI Agent 中调用 mimo，建议加装官方 SKILL.md，Agent 调用时决策更准、无需临时翻 `--help`：
+
+```bash
+npx skills add ljj6600/MIMO-CLI -y -g
+```
+
+SKILL 会自动 symlink 到 `~/.claude/skills/`、`~/.openclaw/skills/` 等目录，各 Agent 下次启动即可识别。仅在终端直接使用 mimo 命令的用户可以跳过此步。
+
+## 快速开始
 
 ### 开箱即用
 
@@ -91,23 +116,6 @@ mimo tts design --prompt "温柔的女声，语速较慢" -t "你好世界"
 mimo language en
 mimo language zh
 ```
-
-## Agent 集成
-
-**在 Cursor、Claude Code、OpenClaw 等 AI Agent 中**，Agent 天然会调用终端命令。只要全局安装了 `mimo-cli`，你的 Agent 就拥有了 MiMo 的全部能力 —— 无需写一行代码，无需接入任何 SDK。
-
-```bash
-# 告诉你的 Agent：
-# "你需要在终端中调用 mimo 命令来完成任务"
-#
-# 它会自动学会使用：
-mimo chat -m "..." --thinking              # 深度推理
-mimo vision --image photo.jpg -p "..."     # 看图理解
-mimo asr recording.wav                      # 语音转文字
-mimo tts synthesize -t "..." --out out.wav # 生成语音
-```
-
-**Agent 天然理解** `mimo chat`、`mimo vision`、`mimo asr` 等命令的语义，可以自主组合这些能力完成复杂的多步任务。
 
 ## 功能特性
 
