@@ -1,41 +1,58 @@
-# MiMo CLI
+<p align="center">
+  <img src="https://img.shields.io/npm/v/mimo-cli.svg" alt="npm version">
+  <img src="https://img.shields.io/github/license/ljj6600/MIMO-CLI" alt="License">
+  <img src="https://img.shields.io/badge/node-%3E%3D18-brightgreen" alt="Node >= 18">
+</p>
 
-MiMo AI 平台命令行工具 — 对话、多模态理解、语音识别与合成，一键接入小米大模型。
+<h1 align="center">MiMo CLI</h1>
+<p align="center"><b>不用写一行代码，帮助你的 Agent 拥有 MiMo 的全部能力。</b></p>
+<p align="center">MiMo AI Platform 命令行工具 — 对话、多模态理解、语音识别与合成，一键接入小米大模型。</p>
 
-[![npm version](https://img.shields.io/npm/v/mimo-cli.svg)](https://www.npmjs.com/package/mimo-cli)
-[![License](https://img.shields.io/github/license/ljj6600/MIMO-CLI)](https://github.com/ljj6600/MIMO-CLI/blob/main/LICENSE)
+<p align="center">
+  <a href="#安装">安装</a> ·
+  <a href="#快速开始">快速开始</a> ·
+  <a href="#命令参考">命令参考</a> ·
+  <a href="#agent-集成">Agent 集成</a> ·
+  <a href="#sdk-编程接口">SDK 编程接口</a> ·
+  <a href="#默认模型">默认模型</a> ·
+  <a href="#配置">配置</a> ·
+  <a href="#安全">安全</a>
+</p>
 
-## 特性
+---
 
-- **对话补全** — 单轮对话 / 交互式多轮对话，支持思维链、联网搜索
-- **多模态理解** — 图片、音频、视频内容理解
-- **语音识别 (ASR)** — wav/mp3 音频转文字
-- **语音合成 (TTS)** — 预设音色合成 / 声音克隆 / 自定义音色设计
-- **中英文界面** — 默认中文，`mimo language en` 一键切换
-- **API Key 自动识别** — 按量计费 (`sk-`) / TokenPlan (`tp-`) 自动推断 Base URL
-- **双 Key 管理** — 同时配置按量计费和 TokenPlan Key，一键切换
-- **自动更新** — `mimo update` 检查并更新到最新版本
-- **安全脱敏** — API Key 本地加密存储、输出脱敏、路径遍历防护
+## 安装
+
+```bash
+# 全局安装，在任意终端使用
+npm install -g mimo-cli
+
+# 安装后即可使用
+mimo --version
+```
+
+> 需要 [Node.js](https://nodejs.org/) 18+。
+>
+> 需要 MiMo API Key — [按量计费](https://api.xiaomimimo.com) 或 [TokenPlan](https://token-plan-cn.xiaomimimo.com)。
 
 ## 快速开始
 
-### 安装
+### 认证
 
 ```bash
-npm install -g mimo-cli
+# 交互式输入
+mimo auth login
+
+# 或直接传入（自动识别 Key 类型）
+mimo auth login --api-key sk-xxxxx       # 按量计费 Key
+mimo auth login --api-key tp-xxxxx       # TokenPlan Key
 ```
 
-### 登录
-
-```bash
-mimo auth login --api-key <your-api-key>
-```
-
-支持两种 API Key：
+支持两种 Key 类型：
 - **按量计费 Key**（`sk-` 前缀）→ 自动配置 `https://api.xiaomimimo.com/v1`
 - **TokenPlan Key**（`tp-` 前缀）→ 自动配置 `https://token-plan-cn.xiaomimimo.com/v1`
 
-### 使用
+### 开箱即用
 
 ```bash
 # 对话
@@ -73,37 +90,121 @@ mimo language en
 mimo language zh
 ```
 
-## 命令一览
+## Agent 集成
 
-| 命令 | 说明 |
-|------|------|
-| `mimo chat` | 单轮对话补全 |
-| `mimo repl` | 交互式多轮对话 |
-| `mimo vision` | 多模态理解（图片/音频/视频） |
-| `mimo asr` | 语音识别 |
-| `mimo tts synthesize` | 预设音色语音合成 |
-| `mimo tts clone` | 声音克隆 |
-| `mimo tts design` | 音色设计 |
-| `mimo tts voices` | 列出可用音色 |
-| `mimo auth login` | 登录（保存 API Key） |
-| `mimo auth status` | 查看认证状态 |
-| `mimo auth logout` | 登出 |
-| `mimo config show` | 显示当前配置 |
-| `mimo config set` | 设置配置项 |
-| `mimo language` | 切换界面语言 (zh/en) |
+**在 Cursor、Claude Code、OpenClaw 等 AI Agent 中**，Agent 天然会调用终端命令。只要全局安装了 `mimo-cli`，你的 Agent 就拥有了 MiMo 的全部能力 —— 无需写一行代码，无需接入任何 SDK。
 
-## 默认模型
+```bash
+# 告诉你的 Agent：
+# "你需要在终端中调用 mimo 命令来完成任务"
+#
+# 它会自动学会使用：
+mimo chat -m "..." --thinking              # 深度推理
+mimo vision --image photo.jpg -p "..."     # 看图理解
+mimo asr recording.wav                      # 语音转文字
+mimo tts synthesize -t "..." --out out.wav # 生成语音
+```
 
-| 能力 | 模型 | 说明 |
-|------|------|------|
-| 对话 | `mimo-v2.5-pro` | 常规对话、复杂推理、深度分析 |
-| 多模态 | `mimo-v2.5` | 图片/音频/视频内容理解 |
-| 语音识别 | `mimo-v2.5-asr` | 语音转文字 |
-| 语音合成 | `mimo-v2.5-tts` | 文字转语音 |
-| 声音克隆 | `mimo-v2.5-tts-voiceclone` | 基于参考音频克隆声音 |
-| 音色设计 | `mimo-v2.5-tts-voicedesign` | 自然语言描述生成音色 |
+**Agent 天然理解** `mimo chat`、`mimo vision`、`mimo asr` 等命令的语义，可以自主组合这些能力完成复杂的多步任务。
+
+## 功能特性
+
+- **对话补全** — 单轮/多轮对话，支持思维链、联网搜索（含地理位置）
+- **多模态理解** — 图片、音频、视频内容理解（URL 模式最大 300MB）
+- **语音识别 (ASR)** — wav/mp3 音频转文字，支持流式输出
+- **语音合成 (TTS)** — 预设音色合成 / 声音克隆 / 自定义音色设计
+- **深度思考** — `--thinking` 参数启用推理过程展示
+- **联网搜索** — `--search` 参数，支持位置感知和关键词控制
+- **流式输出** — 实时逐 token 输出，所见即所得
+- **双 Key 管理** — 按量计费与 TokenPlan Key 一键切换
+- **中英文界面** — `mimo language en` 一键切换
+- **安全第一** — API Key 本地加密、输出自动脱敏、路径遍历防护
+
+## 命令参考
+
+### `mimo chat`
+
+单轮对话补全，支持深度思考和联网搜索。
+
+```bash
+mimo chat -m "你好"                                 # 基础对话
+mimo chat -m "分析量子计算" --thinking                # 深度思考
+mimo chat -m "今天天气" --search --user-city 武汉      # 联网搜索
+mimo chat -m "返回 JSON" --json --no-stream           # 结构化输出
+mimo chat -m "写代码" --system "你是 Go 专家"          # 系统提示词
+```
+
+### `mimo repl`
+
+交互式多轮对话，维护对话历史。
+
+```bash
+mimo repl                                           # 启动交互对话
+mimo repl --thinking --system "你是编程助手"          # 带系统提示词
+mimo repl --search                                  # 联网搜索模式
+```
+
+### `mimo vision`
+
+多模态理解 — 图片、音频、视频。
+
+```bash
+mimo vision --image photo.jpg -p "描述这张图片"                # 图片理解
+mimo vision --audio speech.mp3 -p "转述这段音频"               # 音频理解
+mimo vision --video clip.mp4 -p "总结视频内容" --fps 1         # 视频理解（本地文件）
+mimo vision --video https://example.com/v.mp4 -p "描述"       # 视频理解（URL 模式）
+mimo vision --image a.jpg --audio b.mp3 -p "比较两者"         # 多模态组合
+```
+
+### `mimo asr`
+
+语音识别 — 音频转文字。
+
+```bash
+mimo asr recording.wav                                # 基础语音识别
+mimo asr audio.mp3 --language zh                      # 指定语言
+mimo asr --file recording.wav --language en            # 使用 --file 参数
+mimo asr speech.wav --stream                          # 流式输出
+```
+
+### `mimo tts`
+
+语音合成 — 生成自然语音。
+
+```bash
+mimo tts synthesize -t "你好世界"                                 # 基础合成
+mimo tts synthesize -t "Hello" --voice Mia --format mp3           # 指定音色和格式
+mimo tts synthesize -t "温柔地说" --style "温柔、缓慢" --voice 茉莉 # 风格控制
+mimo tts synthesize -t "文本" --out output.mp3                    # 指定输出路径
+mimo tts voices                                                    # 列出可用音色
+mimo tts clone --sample reference.wav -t "克隆语音"                # 声音克隆
+mimo tts design --prompt "温柔的女声" -t "你好世界"                # 音色设计
+```
+
+### `mimo auth` · `mimo config`
+
+```bash
+mimo auth login                    # 登录（保存 API Key）
+mimo auth login --api-key sk-xxx   # 非交互式登录
+mimo auth status                   # 查看认证状态
+mimo auth logout                   # 登出
+
+mimo config show                   # 查看当前配置
+mimo config set --key timeout --value 600  # 设置超时
+mimo config set --key active_key --value sk # 切换 Key
+```
+
+### `mimo language` · `mimo update`
+
+```bash
+mimo language zh                   # 切换为中文界面
+mimo language en                   # 切换为英文界面
+mimo update                        # 检查并更新到最新版本
+```
 
 ## SDK 编程接口
+
+如果你需要将 MiMo 能力集成到自己的 TypeScript/JavaScript 项目中，`mimo-cli` 也提供了完整的编程 SDK。
 
 ```typescript
 import { MiMoSDK } from 'mimo-cli/sdk';
@@ -136,6 +237,19 @@ const tts = await sdk.tts.synthesize({
 });
 ```
 
+SDK 与 CLI 共享同一底层 API 客户端，调用方式一致，能力完全对齐。
+
+## 默认模型
+
+| 能力 | 模型 | 说明 |
+|------|------|------|
+| 对话 | `mimo-v2.5-pro` | 常规对话、复杂推理、深度分析、长文档处理 |
+| 多模态 | `mimo-v2.5` | 图片/音频/视频内容理解 |
+| 语音识别 | `mimo-v2.5-asr` | 语音转文字 |
+| 语音合成 | `mimo-v2.5-tts` | 文字转语音 |
+| 声音克隆 | `mimo-v2.5-tts-voiceclone` | 基于参考音频克隆声音 |
+| 音色设计 | `mimo-v2.5-tts-voicedesign` | 自然语言描述生成音色 |
+
 ## 配置
 
 配置文件位于 `~/.mimo/config.json`：
@@ -164,16 +278,23 @@ const tts = await sdk.tts.synthesize({
 | `MIMO_TIMEOUT` | 请求超时秒数 |
 | `HTTPS_PROXY` | 代理设置 |
 
+## 安全
+
+- API Key 仅存储在本地 `~/.mimo/config.json`，权限 0o600
+- 所有输出自动脱敏，防止 API Key 泄露
+- 文件路径遍历防护
+- 视频文件大小检测（Base64 ≤ 37.5MB / URL ≤ 300MB）
+
 ## 开发
 
 ```bash
 # 安装依赖
 bun install
 
-# 开发运行
+# 开发运行（不构建，直接执行 TypeScript）
 bun run dev
 
-# 构建
+# 构建（输出到 dist/）
 bun run build
 
 # 类型检查
@@ -183,12 +304,18 @@ bun run typecheck
 bun run lint
 ```
 
-## 安全
+## 架构
 
-- API Key 仅存储在本地 `~/.mimo/config.json`，权限 0o600
-- 所有输出自动脱敏，防止 API Key 泄露
-- 文件路径遍历防护
-- 视频文件大小检测（Base64 ≤ 37.5MB / URL ≤ 300MB）
+mimo-cli 采用四层架构设计：
+
+```
+CLI 层 (Commands)         ← 你执行的 mimo xxx 命令
+SDK 层 (编程接口)          ← 你也可以用 TypeScript 调用
+API 客户端层 (Client)      ← OpenAI 兼容协议，一键切换
+MiMo AI Platform API      ← 小米大模型能力
+```
+
+详见 [CODE_WIKI.md](CODE_WIKI.md)。
 
 ## License
 
