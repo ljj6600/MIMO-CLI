@@ -40,7 +40,7 @@ export class ChatSDK {
 
   async chat(options: ChatOptions): Promise<ChatResult> {
     const request: ChatRequest = {
-      model: options.model ?? 'MiMo-7B-RL',
+      model: options.model ?? 'mimo-v2.5-pro',
       messages: options.messages,
       max_completion_tokens: options.maxCompletionTokens,
       temperature: options.temperature,
@@ -72,7 +72,7 @@ export class ChatSDK {
 
   async *chatStream(options: ChatOptions): AsyncGenerator<ChatStreamChunk> {
     const request: ChatRequest = {
-      model: options.model ?? 'MiMo-7B-RL',
+      model: options.model ?? 'mimo-v2.5-pro',
       messages: options.messages,
       max_completion_tokens: options.maxCompletionTokens,
       temperature: options.temperature,

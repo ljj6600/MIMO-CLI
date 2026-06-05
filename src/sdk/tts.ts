@@ -116,7 +116,7 @@ export class TTSSDK {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: options.model ?? 'mimo-v2.5-tts',
+          model: options.model ?? 'mimo-v2.5-tts-voicedesign',
           prompt: options.prompt,
           text: options.text,
           optimize_text_preview: options.optimizeText ?? false,
@@ -133,7 +133,7 @@ export class TTSSDK {
       return {
         id: response.headers.get('x-request-id') ?? '',
         audio: buffer,
-        model: options.model ?? 'mimo-v2.5-tts',
+        model: options.model ?? 'mimo-v2.5-tts-voicedesign',
       };
     } catch (error) {
       throw wrapApiError(error);
