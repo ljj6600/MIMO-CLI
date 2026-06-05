@@ -113,7 +113,7 @@ export async function main(): Promise<void> {
     initLocale((config as any).language);
     registry.printHelp([]);
 
-    const hasKey = !!(config.apiKey || config.fileApiKey || process.env.MIMO_API_KEY);
+    const hasKey = !!(config.apiKey || config.fileApiKey || config.fileSkApiKey || process.env.MIMO_API_KEY);
     if (!hasKey) {
       process.stderr.write(t('main.notLoggedIn') + '\n');
       process.stderr.write(t('main.loginHint1') + '\n');

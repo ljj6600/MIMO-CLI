@@ -1,6 +1,6 @@
 {
   "name": "mimo-cli",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "type": "module",
   "description": "MiMo AI Platform Command Line Interface — 对话、多模态理解、语音识别与合成",
   "bin": {

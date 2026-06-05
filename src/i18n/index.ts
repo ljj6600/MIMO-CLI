@@ -69,12 +69,12 @@ const translations: Record<string, Record<Locale, string>> = {
     en: 'and usage examples. For example:',
   },
   'main.notLoggedIn': {
-    zh: '  尚未登录。',
-    en: '  Not logged in.',
+    zh: '  尚未配置 API Key。',
+    en: '  No API key configured.',
   },
   'main.loginHint1': {
-    zh: '  mimo auth login              使用 API Key 登录',
-    en: '  mimo auth login              Log in with an API key',
+    zh: '  mimo auth login              交互式输入 API Key',
+    en: '  mimo auth login              Enter an API key interactively',
   },
   'main.loginHint2': {
     zh: '  mimo auth login --api-key    直接保存 API Key',
@@ -149,7 +149,7 @@ const translations: Record<string, Record<Locale, string>> = {
   'api.default': { zh: 'API 错误：', en: 'API error: ' },
 
   // ---- 认证 ----
-  'auth.noCreds': { zh: '未找到认证信息。', en: 'No credentials found.' },
+  'auth.noCreds': { zh: '未找到 API Key。', en: 'No API key found.' },
   'auth.noCredsHint': {
     zh: '登录：        mimo auth login\n直接传入：    --api-key <key>\n环境变量：    MIMO_API_KEY=<key>',
     en: 'Log in:        mimo auth login\nPass directly:  --api-key <key>\nSet env var:    MIMO_API_KEY=<key>',

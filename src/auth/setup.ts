@@ -22,9 +22,9 @@ export async function ensureAuth(config: Config): Promise<void> {
     );
   }
 
-  process.stderr.write('\n  Not logged in.\n');
-  process.stderr.write('  mimo auth login              Log in with an API key\n');
-  process.stderr.write('  mimo auth login --api-key    Save an API key directly\n\n');
+  process.stderr.write('\n' + t('main.notLoggedIn') + '\n');
+  process.stderr.write(t('main.loginHint1') + '\n');
+  process.stderr.write(t('main.loginHint2') + '\n\n');
   process.exit(ExitCode.AUTH);
 }
 
