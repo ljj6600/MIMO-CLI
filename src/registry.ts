@@ -81,12 +81,12 @@ class CommandRegistry {
         })
         .join('\n');
       throw new Error(
-        `Unknown command: mimo ${commandPath.join(' ')}\n\nAvailable commands:\n${subcommands}\n\nRun mimo ${matched.join(' ')} --help for more information.`,
+        `${t('registry.unknownCommand', { command: commandPath.join(' ') })}\n\n${t('registry.availableCommands')}\n${subcommands}\n\n${t('registry.runHelp', { command: matched.join(' ') })}`,
       );
     }
 
     throw new Error(
-      `Unknown command: mimo ${commandPath.join(' ')}\n\nRun mimo --help for available commands.`,
+      `${t('registry.unknownCommand', { command: commandPath.join(' ') })}\n\n${t('registry.runHelpRoot')}`,
     );
   }
 
@@ -186,7 +186,7 @@ class CommandRegistry {
     const maxFlagLen = Math.max(...GLOBAL_OPTIONS.map((o) => o.flag.length));
     let globalFlagsSection = `${b(t('main.globalFlags'))}\n`;
     for (const opt of GLOBAL_OPTIONS) {
-      globalFlagsSection += `  ${a(opt.flag.padEnd(maxFlagLen + 2))} ${d(opt.description)}\n`;
+      globalFlagsSection += `  ${a(opt.flag.padEnd(maxFlagLen + 2))} ${d(t(opt.description))}\n`;
     }
 
     out.write(`
@@ -210,7 +210,7 @@ ${b(t('main.gettingHelp'))}
       const maxLen = Math.max(...cmd.options.map((o) => o.flag.length));
       out.write(`\n${b(t('help.options'))}\n`);
       for (const opt of cmd.options) {
-        out.write(`  ${a(opt.flag.padEnd(maxLen + 2))} ${d(opt.description)}\n`);
+        out.write(`  ${a(opt.flag.padEnd(maxLen + 2))} ${d(t(opt.description))}\n`);
       }
     }
     if (cmd.examples && cmd.examples.length > 0) {

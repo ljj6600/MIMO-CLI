@@ -25,8 +25,8 @@ export const configSetCommand = defineCommand({
   description: 'cmd.configSet.desc',
   usage: 'mimo config set --key <key> --value <value>',
   options: [
-    { flag: '--key <key>', description: 'Config key to set', required: true },
-    { flag: '--value <value>', description: 'Config value to set', required: true },
+    { flag: '--key <key>', description: 'flag.config.key', required: true },
+    { flag: '--value <value>', description: 'flag.config.value', required: true },
   ],
   examples: [
     'mimo config set --key base_url --value https://api.xiaomimimo.com/v1',

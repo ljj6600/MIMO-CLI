@@ -17,11 +17,11 @@ export default defineCommand({
   apiDocs: '/docs/api-reference/tts-voicedesign',
   usage: 'mimo tts design --prompt <description> [flags]',
   options: [
-    { flag: '-p, --prompt <desc>', description: 'Voice description text', required: true },
-    { flag: '-t, --text <text>', description: 'Text to synthesize (optional if --optimize-text)' },
-    { flag: '--optimize-text', description: 'Enable smart text preview optimization' },
-    { flag: '--format <fmt>', description: 'Audio format: wav/mp3/pcm (default: wav)', default: 'wav' },
-    { flag: '-o, --out <path>', description: 'Output file path' },
+    { flag: '-p, --prompt <desc>', description: 'flag.ttsDesign.prompt', required: true },
+    { flag: '-t, --text <text>', description: 'flag.ttsDesign.text' },
+    { flag: '--optimize-text', description: 'flag.ttsDesign.optimizeText' },
+    { flag: '--format <fmt>', description: 'flag.tts.format', default: 'wav' },
+    { flag: '-o, --out <path>', description: 'flag.tts.out' },
   ],
   examples: [
     'mimo tts design --prompt "温柔的女声，语速较慢" --text "你好，世界！"',

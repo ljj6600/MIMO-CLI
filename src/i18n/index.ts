@@ -289,6 +289,86 @@ const translations: Record<string, Record<Locale, string>> = {
   'language.invalid': { zh: '无效的语言代码，请使用 zh（中文）或 en（英文）。', en: 'Invalid language code. Use zh (Chinese) or en (English).' },
   'language.hint': { zh: '使用：mimo language zh 或 mimo language en', en: 'Usage: mimo language zh or mimo language en' },
 
+  // ---- 全局参数 ----
+  'flag.apiKey': { zh: '覆盖配置中的 API Key', en: 'Override API Key from config' },
+  'flag.baseUrl': { zh: '覆盖接口地址', en: 'Override API base URL' },
+  'flag.output': { zh: '输出格式（text/json）', en: 'Output format (text/json)' },
+  'flag.timeout': { zh: '请求超时时间（秒）', en: 'Request timeout in seconds' },
+  'flag.quiet': { zh: '静默模式，仅输出必要信息', en: 'Suppress non-essential output' },
+  'flag.verbose': { zh: '显示详细日志', en: 'Show verbose logging' },
+  'flag.noColor': { zh: '禁用彩色输出', en: 'Disable colored output' },
+  'flag.dryRun': { zh: '仅打印请求体，不实际执行', en: 'Print request body without executing' },
+  'flag.nonInteractive': { zh: '非交互模式', en: 'Non-interactive mode' },
+  'flag.help': { zh: '显示帮助信息', en: 'Show help' },
+  'flag.version': { zh: '显示版本号', en: 'Show version' },
+
+  // ---- Chat 选项 ----
+  'flag.chat.message': { zh: '消息内容', en: 'Message text' },
+  'flag.chat.model': { zh: '模型名称（默认：mimo-v2.5-pro）', en: 'Model name (default: mimo-v2.5-pro)' },
+  'flag.chat.system': { zh: '系统提示词', en: 'System prompt' },
+  'flag.chat.thinking': { zh: '启用深度思考模式', en: 'Enable thinking mode' },
+  'flag.chat.search': { zh: '启用联网搜索', en: 'Enable web search' },
+  'flag.chat.forceSearch': { zh: '强制联网搜索', en: 'Force web search' },
+  'flag.chat.maxKeyword': { zh: '单次搜索最大关键词数量', en: 'Max keywords per search' },
+  'flag.chat.searchLimit': { zh: '搜索结果数量限制', en: 'Search result limit' },
+  'flag.chat.userCountry': { zh: '用户位置：国家', en: 'User location: country' },
+  'flag.chat.userRegion': { zh: '用户位置：地区', en: 'User location: region' },
+  'flag.chat.userCity': { zh: '用户位置：城市', en: 'User location: city' },
+  'flag.chat.stream': { zh: '流式输出（默认开启，用 --no-stream 关闭）', en: 'Streaming output (default: on, use --no-stream to disable)' },
+  'flag.chat.noStream': { zh: '禁用流式输出', en: 'Disable streaming output' },
+  'flag.chat.json': { zh: '结构化 JSON 输出', en: 'Structured JSON output' },
+  'flag.chat.maxTokens': { zh: '最大生成令牌数', en: 'Max completion tokens' },
+  'flag.chat.temperature': { zh: '采样温度', en: 'Sampling temperature' },
+
+  // ---- REPL 选项 ----
+  'flag.repl.model': { zh: '模型名称（默认：mimo-v2.5-pro）', en: 'Model name (default: mimo-v2.5-pro)' },
+  'flag.repl.thinking': { zh: '启用深度思考模式', en: 'Enable thinking mode' },
+  'flag.repl.search': { zh: '启用联网搜索', en: 'Enable web search' },
+  'flag.repl.system': { zh: '系统提示词', en: 'System prompt' },
+
+  // ---- Vision 选项 ----
+  'flag.vision.image': { zh: '图片路径或 URL', en: 'Image file path or URL' },
+  'flag.vision.audio': { zh: '音频路径或 URL', en: 'Audio file path or URL' },
+  'flag.vision.video': { zh: '视频路径或 URL', en: 'Video file path or URL' },
+  'flag.vision.prompt': { zh: '对内容的提问', en: 'Question about the content' },
+  'flag.vision.model': { zh: '模型名称（默认：mimo-v2.5）', en: 'Model name (default: mimo-v2.5)' },
+  'flag.vision.stream': { zh: '流式输出（默认开启，用 --no-stream 关闭）', en: 'Streaming output (default: on, use --no-stream to disable)' },
+  'flag.vision.noStream': { zh: '禁用流式输出', en: 'Disable streaming output' },
+  'flag.vision.fps': { zh: '视频帧率（默认：2）', en: 'Video frame rate (default: 2)' },
+  'flag.vision.mediaResolution': { zh: '视频分辨率：default | max', en: 'Video resolution: default | max' },
+
+  // ---- ASR 选项 ----
+  'flag.asr.language': { zh: '语言：auto | zh | en（默认：auto）', en: 'Language: auto | zh | en (default: auto)' },
+  'flag.asr.stream': { zh: '启用流式输出', en: 'Enable streaming output' },
+  'flag.asr.file': { zh: '音频文件路径（替代位置参数）', en: 'Audio file path (alternative to positional arg)' },
+
+  // ---- TTS 选项 ----
+  'flag.tts.text': { zh: '待合成文本', en: 'Text to synthesize' },
+  'flag.tts.voice': { zh: '音色 ID（默认：mimo_default）', en: 'Voice ID (default: mimo_default)' },
+  'flag.tts.style': { zh: '自然语言风格指令', en: 'Natural language style instruction' },
+  'flag.tts.format': { zh: '音频格式：wav/mp3/pcm（默认：wav）', en: 'Audio format: wav/mp3/pcm (default: wav)' },
+  'flag.tts.out': { zh: '输出文件路径', en: 'Output file path' },
+  'flag.tts.sample': { zh: '音频样本文件路径（mp3/wav）', en: 'Audio sample file path (mp3/wav)' },
+  'flag.ttsDesign.prompt': { zh: '音色描述文本', en: 'Voice description text' },
+  'flag.ttsDesign.text': { zh: '待合成文本（启用 --optimize-text 时可省略）', en: 'Text to synthesize (optional if --optimize-text)' },
+  'flag.ttsDesign.optimizeText': { zh: '启用智能文本预览优化', en: 'Enable smart text preview optimization' },
+
+  // ---- Config 选项 ----
+  'flag.config.key': { zh: '要设置的配置键', en: 'Config key to set' },
+  'flag.config.value': { zh: '要设置的配置值', en: 'Config value to set' },
+
+  // ---- Help 选项 ----
+  'flag.help.command': { zh: '要查看帮助的命令路径（如 "auth login"）', en: 'Command path to get help for (e.g. "auth login")' },
+
+  // ---- Auth 选项 ----
+  'flag.auth.apiKey': { zh: '直接保存 API Key（跳过交互式输入）', en: 'API key to save (skips interactive prompt)' },
+
+  // ---- Registry 错误 ----
+  'registry.unknownCommand': { zh: '未知命令：mimo {command}', en: 'Unknown command: mimo {command}' },
+  'registry.availableCommands': { zh: '可用命令：', en: 'Available commands:' },
+  'registry.runHelp': { zh: '运行 mimo {command} --help 查看更多信息。', en: 'Run mimo {command} --help for more information.' },
+  'registry.runHelpRoot': { zh: '运行 mimo --help 查看可用命令。', en: 'Run mimo --help for available commands.' },
+
   // ---- 通用 ----
   'general.notSet': { zh: '（未设置）', en: '(not set)' },
   'general.or': { zh: '或', en: 'or' },

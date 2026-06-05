@@ -14,9 +14,9 @@ export default defineCommand({
   description: 'cmd.asr.desc',
   usage: 'mimo asr <audio-file> [flags]',
   options: [
-    { flag: '--language <lang>', description: 'Language: auto | zh | en (default: auto)' },
-    { flag: '--stream', description: 'Enable streaming output' },
-    { flag: '--file <path>', description: 'Audio file path (alternative to positional arg)' },
+    { flag: '--language <lang>', description: 'flag.asr.language' },
+    { flag: '--stream', description: 'flag.asr.stream' },
+    { flag: '--file <path>', description: 'flag.asr.file' },
   ],
   examples: [
     'mimo asr recording.wav',
@@ -86,14 +86,12 @@ export default defineCommand({
           }
         }
       } catch (err) {
-        // ASR 流式请求失败时给出明确错误提示
         throw new CLIError(
           t('asr.streamFailed') + (err instanceof Error ? err.message : String(err)),
           ExitCode.NETWORK,
           t('asr.checkHint'),
         );
       } finally {
-        // 确保流式连接被正确关闭，释放网络资源
         abortStream(stream);
       }
       process.stdout.write('\n');
@@ -102,7 +100,6 @@ export default defineCommand({
       try {
         response = await client.chatCompletion(params);
       } catch (err) {
-        // ASR 请求失败时给出明确错误提示
         throw new CLIError(
           t('asr.requestFailed') + (err instanceof Error ? err.message : String(err)),
           ExitCode.NETWORK,

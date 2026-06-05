@@ -18,10 +18,10 @@ export default defineCommand({
   apiDocs: '/docs/api-reference/tts-voiceclone',
   usage: 'mimo tts clone --sample <audio> --text <text> [flags]',
   options: [
-    { flag: '--sample <path>', description: 'Audio sample file path (mp3/wav)', required: true },
-    { flag: '-t, --text <text>', description: 'Text to synthesize', required: true },
-    { flag: '--format <fmt>', description: 'Audio format: wav/mp3/pcm (default: wav)', default: 'wav' },
-    { flag: '-o, --out <path>', description: 'Output file path' },
+    { flag: '--sample <path>', description: 'flag.tts.sample', required: true },
+    { flag: '-t, --text <text>', description: 'flag.tts.text', required: true },
+    { flag: '--format <fmt>', description: 'flag.tts.format', default: 'wav' },
+    { flag: '-o, --out <path>', description: 'flag.tts.out' },
   ],
   examples: [
     'mimo tts clone --sample voice.mp3 --text "你好，世界！"',

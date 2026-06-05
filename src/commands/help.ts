@@ -6,7 +6,7 @@ export const helpCommand = defineCommand({
   description: 'cmd.help.desc',
   usage: 'mimo help [command]',
   options: [
-    { flag: '--command <path>', description: 'Command path to get help for (e.g. "auth login")' },
+    { flag: '--command <path>', description: 'flag.help.command' },
   ],
   async run(_config: unknown, flags: Record<string, unknown>): Promise<void> {
     const commandPath = typeof flags.command === 'string'

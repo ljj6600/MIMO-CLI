@@ -12,7 +12,7 @@ export const authLoginCommand = defineCommand({
   description: 'cmd.authLogin.desc',
   usage: 'mimo auth login [--api-key <key>]',
   options: [
-    { flag: '--api-key <key>', description: 'API key to save (skips interactive prompt)' },
+    { flag: '--api-key <key>', description: 'flag.auth.apiKey' },
   ],
   examples: [
     'mimo auth login',

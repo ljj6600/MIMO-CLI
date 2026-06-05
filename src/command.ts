@@ -44,15 +44,15 @@ export function defineCommand(spec: CommandSpec): Command {
 
 /** Global flags shared by all commands — drives the parser's type resolution. */
 export const GLOBAL_OPTIONS: OptionDef[] = [
-  { flag: '--api-key <value>', description: 'Override API Key from config' },
-  { flag: '--base-url <value>', description: 'Override API base URL' },
-  { flag: '--output <value>', description: 'Output format (text/json)', default: 'text' },
-  { flag: '--timeout <seconds>', description: 'Request timeout in seconds', default: 300, type: 'number' },
-  { flag: '--quiet', description: 'Suppress non-essential output' },
-  { flag: '--verbose', description: 'Show verbose logging' },
-  { flag: '--no-color', description: 'Disable colored output' },
-  { flag: '--dry-run', description: 'Print request body without executing' },
-  { flag: '--non-interactive', description: 'Non-interactive mode' },
-  { flag: '--help', description: 'Show help' },
-  { flag: '--version', description: 'Show version' },
+  { flag: '--api-key <value>', description: 'flag.apiKey' },
+  { flag: '--base-url <value>', description: 'flag.baseUrl' },
+  { flag: '--output <value>', description: 'flag.output', default: 'text' },
+  { flag: '--timeout <seconds>', description: 'flag.timeout', default: 300, type: 'number' },
+  { flag: '--quiet', description: 'flag.quiet' },
+  { flag: '--verbose', description: 'flag.verbose' },
+  { flag: '--no-color', description: 'flag.noColor' },
+  { flag: '--dry-run', description: 'flag.dryRun' },
+  { flag: '--non-interactive', description: 'flag.nonInteractive' },
+  { flag: '--help', description: 'flag.help' },
+  { flag: '--version', description: 'flag.version' },
 ];

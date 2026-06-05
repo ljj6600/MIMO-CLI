@@ -37,11 +37,11 @@ export default defineCommand({
   apiDocs: '/docs/api-reference/tts',
   usage: 'mimo tts synthesize --text <text> [flags]',
   options: [
-    { flag: '-t, --text <text>', description: 'Text to synthesize', required: true },
-    { flag: '--voice <id>', description: `Voice ID (default: mimo_default). Valid: ${VALID_VOICES.join(', ')}`, default: 'mimo_default' },
-    { flag: '--style <desc>', description: 'Natural language style instruction' },
-    { flag: '--format <fmt>', description: 'Audio format: wav/mp3/pcm (default: wav)', default: 'wav' },
-    { flag: '-o, --out <path>', description: 'Output file path' },
+    { flag: '-t, --text <text>', description: 'flag.tts.text', required: true },
+    { flag: '--voice <id>', description: 'flag.tts.voice', default: 'mimo_default' },
+    { flag: '--style <desc>', description: 'flag.tts.style' },
+    { flag: '--format <fmt>', description: 'flag.tts.format', default: 'wav' },
+    { flag: '-o, --out <path>', description: 'flag.tts.out' },
   ],
   examples: [
     'mimo tts synthesize --text "你好，世界！"',
@@ -59,7 +59,6 @@ export default defineCommand({
       );
     }
 
-    // 边界条件：空文本（仅空白字符）
     if (text.trim().length === 0) {
       throw new CLIError(
         t('tts.emptyText'),
@@ -68,7 +67,6 @@ export default defineCommand({
       );
     }
 
-    // 边界条件：超长文本（超过 5000 字符）
     const MAX_TTS_TEXT_LENGTH = 5000;
     if (text.length > MAX_TTS_TEXT_LENGTH) {
       throw new CLIError(

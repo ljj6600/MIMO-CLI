@@ -14,10 +14,10 @@ export default defineCommand({
   description: 'cmd.repl.desc',
   usage: 'mimo repl [flags]',
   options: [
-    { flag: '--model <model>', description: 'Model name (default: mimo-v2.5-pro)' },
-    { flag: '--thinking', description: 'Enable thinking mode' },
-    { flag: '--search', description: 'Enable web search' },
-    { flag: '-s, --system <text>', description: 'System prompt' },
+    { flag: '--model <model>', description: 'flag.repl.model' },
+    { flag: '--thinking', description: 'flag.repl.thinking' },
+    { flag: '--search', description: 'flag.repl.search' },
+    { flag: '-s, --system <text>', description: 'flag.repl.system' },
   ],
   examples: [
     'mimo repl',
