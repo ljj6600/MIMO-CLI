@@ -33,7 +33,9 @@ mimo --version
 
 > 需要 [Node.js](https://nodejs.org/) 18+。
 >
-> 需要 MiMo API Key — [按量计费](https://api.xiaomimimo.com) 或 [TokenPlan](https://token-plan-cn.xiaomimimo.com)。
+> 需要 MiMo API Key — 前往 [MiMo 平台](https://platform.xiaomimimo.com) 获取：
+> - [TokenPlan API Key](https://platform.xiaomimimo.com/console/plan-manage)（`tp-` 前缀）
+> - [按量计费 API Key](https://platform.xiaomimimo.com/console/api-keys)（`sk-` 前缀）
 
 ## 快速开始
 
@@ -48,9 +50,9 @@ mimo auth login --api-key sk-xxxxx       # 按量计费 Key
 mimo auth login --api-key tp-xxxxx       # TokenPlan Key
 ```
 
-支持两种 Key 类型：
-- **按量计费 Key**（`sk-` 前缀）→ 自动配置 `https://api.xiaomimimo.com/v1`
-- **TokenPlan Key**（`tp-` 前缀）→ 自动配置 `https://token-plan-cn.xiaomimimo.com/v1`
+支持两种 Key 类型，前往 [MiMo 平台](https://platform.xiaomimimo.com) 获取：
+- **TokenPlan Key**（`tp-` 前缀）→ [申请地址](https://platform.xiaomimimo.com/console/plan-manage)，自动配置 `https://token-plan-cn.xiaomimimo.com/v1`
+- **按量计费 Key**（`sk-` 前缀）→ [申请地址](https://platform.xiaomimimo.com/console/api-keys)，自动配置 `https://api.xiaomimimo.com/v1`
 
 ### 开箱即用
 
@@ -314,8 +316,6 @@ SDK 层 (编程接口)          ← 你也可以用 TypeScript 调用
 API 客户端层 (Client)      ← OpenAI 兼容协议，一键切换
 MiMo AI Platform API      ← 小米大模型能力
 ```
-
-详见项目仓库中的 `CODE_WIKI.md`（本地开发目录）。
 
 ## License
 
