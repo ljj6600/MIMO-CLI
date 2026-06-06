@@ -31,25 +31,7 @@
 
 ## 安装
 
-### 方式一：Windows 独立安装包（快速使用）
-
-无需安装 Node.js，下载即用。
-
-1. 前往 [Releases 页面](https://github.com/ljj6600/MIMO-CLI/releases) 下载 `mimo-windows-x64.exe`
-2. **双击运行**，自动完成安装并加入系统 PATH
-3. 打开新的 cmd 或 PowerShell，输入 `mimo` 即可使用
-
-> 安装路径为 `%LOCALAPPDATA%\mimo\`，不修改系统文件。如需卸载，在终端执行 `mimo uninstall` 即可清除。
-
-### 方式二：npm 全局安装（手动安装，需 Node.js 18+）
-
-```bash
-npm install -g mimo-cli
-```
-
-> 需要 [Node.js](https://nodejs.org/) 18+ 运行环境。npm 安装更稳定，版本更新更及时，推荐有 Node.js 环境的用户使用。
-
-### 方式三：通过 Agent 安装
+### 方式一：通过 Agent 安装
 
 如果你正在使用 Claude Code、OpenClaw、Cursor 等 AI Agent，可以直接让 Agent 帮你完成安装与配置。复制以下提示词发送给 Agent：
 
@@ -63,18 +45,50 @@ npm install -g mimo-cli
 完成后请执行 `mimo chat -m "你好"` 查看 MiMo 的回复，确认整体配置生效。
 ```
 
-### 配置 API Key
+### 方式二：npm 手动全局安装（需 Node.js 18+）
+
+**1. 安装 MiMo CLI**
+
+在终端运行以下命令完成全局安装：
+
+```bash
+npm install -g mimo-cli
+```
+
+**2. 登录 API Key**
+
+使用 API Key 完成鉴权（请将 `sk-xxxxx` 替换为你的 Key）：
 
 ```bash
 mimo auth login --api-key sk-xxxxx
 ```
+
+> 最新版 mimo-cli 会根据 Key 前缀自动检测类型并配置对应的接口地址，无需手动设置。
 
 前往 [MiMo 平台](https://platform.xiaomimimo.com) 获取密钥，支持两种类型：
 
 - **TokenPlan Key**（`tp-` 开头）→ [申请地址](https://platform.xiaomimimo.com/console/plan-manage)，自动匹配 `https://token-plan-cn.xiaomimimo.com/v1`
 - **按量计费 Key**（`sk-` 开头）→ [申请地址](https://platform.xiaomimimo.com/console/api-keys)，自动匹配 `https://api.xiaomimimo.com/v1`
 
-CLI 会根据 Key 前缀自动识别类型并配置对应的接口地址，无需手动设置。
+**3. 安装 SKILL（可选，推荐 Agent 用户）**
+
+若你要在 Claude Code、OpenClaw、Cursor 等 AI Agent 中调用 MiMo，建议加装官方 SKILL，Agent 调用时决策更准、无需临时翻 `--help`：
+
+```bash
+npx skills add ljj6600/MIMO-CLI -y -g
+```
+
+> SKILL 会自动 symlink 到 `~/.claude/skills/`、`~/.openclaw/skills/` 等目录，各 Agent 下次启动即可识别。仅在终端直接使用 `mimo` 命令的用户可以跳过此步。
+
+### 方式三：Windows 独立安装包（快速使用）
+
+无需安装 Node.js，下载即用。
+
+1. 前往 [Releases 页面](https://github.com/ljj6600/MIMO-CLI/releases) 下载 `mimo-windows-x64.exe`
+2. **双击运行**，自动完成安装并加入系统 PATH
+3. 打开新的 cmd 或 PowerShell，输入 `mimo` 即可使用
+
+> 安装路径为 `%LOCALAPPDATA%\mimo\`，不修改系统文件。如需卸载，在终端执行 `mimo uninstall` 即可清除。
 
 ## 新用户福利
 

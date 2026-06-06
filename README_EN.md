@@ -31,25 +31,7 @@
 
 ## Installation
 
-### Option 1: Windows Standalone EXE (Quick Start)
-
-No Node.js required — download and run.
-
-1. Head to the [Releases page](https://github.com/ljj6600/MIMO-CLI/releases) and grab `mimo-windows-x64.exe`
-2. **Double-click** to install — it automatically adds itself to your system PATH
-3. Open a new cmd or PowerShell window and type `mimo`
-
-> The program is installed to `%LOCALAPPDATA%\mimo\` and does not modify any system files. To uninstall, run `mimo uninstall` in your terminal.
-
-### Option 2: npm Global Install (Manual Install, Requires Node.js 18+)
-
-```bash
-npm install -g mimo-cli
-```
-
-> Requires [Node.js](https://nodejs.org/) 18+. npm install is more stable with faster version updates — recommended for users with a Node.js environment.
-
-### Option 3: Install via Agent
+### Option 1: Install via Agent
 
 If you're using AI Agents like Claude Code, OpenClaw, or Cursor, you can have the Agent handle the installation and configuration for you. Copy and send the following prompt to your Agent:
 
@@ -63,18 +45,50 @@ Please help me set up MiMo CLI (`https://github.com/ljj6600/MIMO-CLI`) by comple
 After completion, please run `mimo chat -m "Hello"` to verify MiMo's response and confirm the setup is working.
 ```
 
-### Configure Your API Key
+### Option 2: npm Manual Global Install (Requires Node.js 18+)
+
+**1. Install MiMo CLI**
+
+Run the following command in your terminal to install globally:
+
+```bash
+npm install -g mimo-cli
+```
+
+**2. Log in with API Key**
+
+Authenticate using your API Key (replace `sk-xxxxx` with your actual key):
 
 ```bash
 mimo auth login --api-key sk-xxxxx
 ```
+
+> The latest version of mimo-cli automatically detects the key prefix and configures the corresponding API endpoint — no manual setup required.
 
 Get your key from the [MiMo Platform](https://platform.xiaomimimo.com). Two key types are supported:
 
 - **TokenPlan Key** (`tp-` prefix) → [Apply here](https://platform.xiaomimimo.com/console/plan-manage), auto-configures `https://token-plan-cn.xiaomimimo.com/v1`
 - **Pay-as-you-go Key** (`sk-` prefix) → [Apply here](https://platform.xiaomimimo.com/console/api-keys), auto-configures `https://api.xiaomimimo.com/v1`
 
-The CLI automatically detects the key prefix and sets the correct base URL — no manual configuration needed.
+**3. Install SKILL (Optional, Recommended for Agent Users)**
+
+If you plan to use MiMo inside AI Agents like Claude Code, OpenClaw, or Cursor, we recommend installing the official SKILL for better Agent decision-making — no need to dig through `--help` at runtime:
+
+```bash
+npx skills add ljj6600/MIMO-CLI -y -g
+```
+
+> The SKILL is automatically symlinked to `~/.claude/skills/` and `~/.openclaw/skills/` — Agents will pick it up on their next launch. You can skip this if you only use `mimo` commands directly in your terminal.
+
+### Option 3: Windows Standalone EXE (Quick Start)
+
+No Node.js required — download and run.
+
+1. Head to the [Releases page](https://github.com/ljj6600/MIMO-CLI/releases) and grab `mimo-windows-x64.exe`
+2. **Double-click** to install — it automatically adds itself to your system PATH
+3. Open a new cmd or PowerShell window and type `mimo`
+
+> The program is installed to `%LOCALAPPDATA%\mimo\` and does not modify any system files. To uninstall, run `mimo uninstall` in your terminal.
 
 ---
 
