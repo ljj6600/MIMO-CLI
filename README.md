@@ -31,7 +31,7 @@
 
 ## 安装
 
-### 方式一：Windows 独立安装包（推荐，零依赖）
+### 方式一：Windows 独立安装包（快速使用）
 
 无需安装 Node.js，下载即用。
 
@@ -41,13 +41,13 @@
 
 > 安装路径为 `%LOCALAPPDATA%\mimo\`，不修改系统文件。如需卸载，在终端执行 `mimo uninstall` 即可清除。
 
-### 方式二：npm 全局安装（需 Node.js 18+）
+### 方式二：npm 全局安装（推荐，需 Node.js 18+）
 
 ```bash
 npm install -g mimo-cli
 ```
 
-> 需要 [Node.js](https://nodejs.org/) 18+ 运行环境。
+> 需要 [Node.js](https://nodejs.org/) 18+ 运行环境。npm 安装更稳定，版本更新更及时，推荐有 Node.js 环境的用户使用。
 
 ### 配置 API Key
 

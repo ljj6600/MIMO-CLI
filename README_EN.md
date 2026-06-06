@@ -31,7 +31,7 @@
 
 ## Installation
 
-### Option 1: Windows Standalone EXE (Recommended, No Dependencies)
+### Option 1: Windows Standalone EXE (Quick Start)
 
 No Node.js required — download and run.
 
@@ -41,13 +41,13 @@ No Node.js required — download and run.
 
 > The program is installed to `%LOCALAPPDATA%\mimo\` and does not modify any system files. To uninstall, run `mimo uninstall` in your terminal.
 
-### Option 2: npm Global Install (Requires Node.js 18+)
+### Option 2: npm Global Install (Recommended, Requires Node.js 18+)
 
 ```bash
 npm install -g mimo-cli
 ```
 
-> Requires [Node.js](https://nodejs.org/) 18+.
+> Requires [Node.js](https://nodejs.org/) 18+. npm install is more stable with faster version updates — recommended for users with a Node.js environment.
 
 ### Configure Your API Key
 
