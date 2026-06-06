@@ -4,13 +4,3 @@ dist/
 .DS_Store
 .env
 .env.local
-
-# Test files
-test_all/
-test_video_audio_pic/
-
-# Config with credentials
-.mimo/
-
-# Internal docs (not for release)
-CODE_WIKI.md

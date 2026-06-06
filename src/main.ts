@@ -17,6 +17,7 @@ import { configSetCommand } from './commands/config/set';
 import { updateCommand } from './commands/update';
 import { helpCommand } from './commands/help';
 import { languageCommand } from './commands/language';
+import { uninstallCommand } from './commands/uninstall';
 
 // Command imports — API commands (created by another agent in parallel, using default exports)
 import chatCommand from './commands/chat';
@@ -46,6 +47,7 @@ registry.register('config set', configSetCommand);
 registry.register('update', updateCommand);
 registry.register('help', helpCommand);
 registry.register('language', languageCommand);
+registry.register('uninstall', uninstallCommand);
 
 // Commands that don't require authentication
 const NO_AUTH_COMMANDS = [
@@ -57,6 +59,7 @@ const NO_AUTH_COMMANDS = [
   ['update'],
   ['help'],
   ['language'],
+  ['uninstall'],
 ];
 
 // Handle Ctrl+C gracefully

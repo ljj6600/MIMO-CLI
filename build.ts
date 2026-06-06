@@ -39,4 +39,26 @@ await build({
   external: ["undici", "openai"],
 });
 
+// Optional: compile standalone Windows executable
+// Usage: bun run build.ts --exe
+if (process.argv.includes("--exe")) {
+  const version = process.env.npm_package_version ?? "0.1.0";
+
+  await build({
+    entrypoints: ["./src/exe-entry.ts"],
+    compile: {
+      target: "bun-windows-x64",
+      outfile: "./dist/mimo",
+    },
+    minify: true,
+    bytecode: true,
+    sourcemap: "linked",
+    define: {
+      "process.env.CLI_VERSION": JSON.stringify(version),
+    },
+  });
+
+  console.log("EXE build complete: dist/mimo.exe");
+}
+
 console.log("Build complete!");

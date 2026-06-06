@@ -369,6 +369,19 @@ const translations: Record<string, Record<Locale, string>> = {
   'registry.runHelp': { zh: '运行 mimo {command} --help 查看更多信息。', en: 'Run mimo {command} --help for more information.' },
   'registry.runHelpRoot': { zh: '运行 mimo --help 查看可用命令。', en: 'Run mimo --help for available commands.' },
 
+  // ---- 卸载 ----
+  'cmd.uninstall.desc': { zh: '卸载 exe 安装的 MiMo CLI', en: 'Uninstall exe-installed MiMo CLI' },
+  'uninstall.notFound': { zh: '未找到 exe 安装的 MiMo CLI。', en: 'No exe-installed MiMo CLI found.' },
+  'uninstall.npmHint': { zh: '如通过 npm 安装，请使用：npm uninstall -g mimo-cli', en: 'If installed via npm, use: npm uninstall -g mimo-cli' },
+  'uninstall.header': { zh: 'MiMo CLI - 卸载程序', en: 'MiMo CLI - Uninstaller' },
+  'uninstall.pathRemoved': { zh: '已将安装目录从系统 PATH 中移除', en: 'Removed install directory from system PATH' },
+  'uninstall.pathNotPresent': { zh: '安装目录不在系统 PATH 中', en: 'Install directory not in system PATH' },
+  'uninstall.keepConfig': { zh: '已保留配置文件（~/.mimo/config.json）', en: 'Kept config file (~/.mimo/config.json)' },
+  'uninstall.cleanupDone': { zh: '正在清理程序文件...', en: 'Cleaning up program files...' },
+  'uninstall.cleanupStarted': { zh: '正在清理程序文件...', en: 'Cleaning up program files...' },
+  'uninstall.done': { zh: '✔ 卸载完成！', en: '✔ Uninstall complete!' },
+  'uninstall.restartHint': { zh: '请关闭当前终端，打开新的 cmd 或 PowerShell 以确保 PATH 更新生效。', en: 'Please close this terminal and open a new cmd or PowerShell for PATH changes to take effect.' },
+
   // ---- 通用 ----
   'general.notSet': { zh: '（未设置）', en: '(not set)' },
   'general.or': { zh: '或', en: 'or' },

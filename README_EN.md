@@ -8,44 +8,40 @@
   <a href="https://nodejs.org/">
     <img src="https://img.shields.io/badge/node-%3E%3D18-brightgreen" alt="Node >= 18">
   </a>
+  <a href="https://github.com/ljj6600/MIMO-CLI/releases">
+    <img src="https://img.shields.io/badge/platform-windows-blue" alt="Windows exe">
+  </a>
 </p>
 
 <h1 align="center">MiMo CLI</h1>
 <p align="center"><b>Give your Agent the full power of MiMo — without writing a single line of code.</b></p>
-<p align="center">The command-line tool for the MiMo AI Platform — chat, multimodal understanding, speech recognition & synthesis, all in one click.</p>
+<p align="center">Command-line interface for the MiMo AI Platform — chat, multimodal understanding, speech recognition & synthesis.</p>
 
 <p align="center">
   <a href="#installation">Installation</a> ·
   <a href="#quick-start">Quick Start</a> ·
   <a href="#command-reference">Command Reference</a> ·
   <a href="#agent-integration">Agent Integration</a> ·
-  <a href="#sdk-programmatic-api">SDK Programmatic API</a> ·
+  <a href="#sdk">SDK</a> ·
   <a href="#default-models">Default Models</a> ·
-  <a href="#configuration">Configuration</a> ·
-  <a href="#security">Security</a>
+  <a href="#configuration">Configuration</a>
 </p>
 
 ---
 
-## Installation & Setup
+## Installation
 
-### Install via Agent
+### Option 1: Windows Standalone EXE (Recommended, No Dependencies)
 
-Copy the following prompt to your AI Agent (OpenClaw, Claude Code, Cursor, MaxClaw, AutoClaw, KimiClaw, TRAE, OpenCode, etc.) and it will guide you through installation, login, and SKILL setup (replace `sk-xxxxx` with your actual key):
+No Node.js required — download and run.
 
-```
-Please help me set up MiMo CLI (https://github.com/ljj6600/MIMO-CLI) by completing these three steps:
+1. Head to the [Releases page](https://github.com/ljj6600/MIMO-CLI/releases) and grab `mimo-windows-x64.exe`
+2. **Double-click** to install — it automatically adds itself to your system PATH
+3. Open a new cmd or PowerShell window and type `mimo`
 
-1. Install the CLI globally: run `npm install -g mimo-cli`, then verify with `mimo --version`
-2. Log in and configure your API Key: run `mimo auth login --api-key sk-xxxxx`
-3. Install the official SKILL: run `npx skills add ljj6600/MIMO-CLI -y -g`
-```
+> The program is installed to `%LOCALAPPDATA%\mimo\` and does not modify any system files. To uninstall, run `mimo uninstall` in your terminal.
 
-### Manual Installation
-
-#### 1. Install MiMo-CLI
-
-Run the following command in your terminal to install globally:
+### Option 2: npm Global Install (Requires Node.js 18+)
 
 ```bash
 npm install -g mimo-cli
@@ -53,49 +49,32 @@ npm install -g mimo-cli
 
 > Requires [Node.js](https://nodejs.org/) 18+.
 
-#### 2. Log in with Your API Key
-
-Authenticate using your API Key (replace `sk-xxxxx` with your actual key):
+### Configure Your API Key
 
 ```bash
 mimo auth login --api-key sk-xxxxx
 ```
 
-Two key types are supported — get yours from the [MiMo Platform](https://platform.xiaomimimo.com):
+Get your key from the [MiMo Platform](https://platform.xiaomimimo.com). Two key types are supported:
+
 - **TokenPlan Key** (`tp-` prefix) → [Apply here](https://platform.xiaomimimo.com/console/plan-manage), auto-configures `https://token-plan-cn.xiaomimimo.com/v1`
 - **Pay-as-you-go Key** (`sk-` prefix) → [Apply here](https://platform.xiaomimimo.com/console/api-keys), auto-configures `https://api.xiaomimimo.com/v1`
 
-The latest version of mimo-cli automatically detects the key prefix and configures the corresponding Base URL.
+The CLI automatically detects the key prefix and sets the correct base URL — no manual configuration needed.
 
-#### 3. Install SKILL (Optional, Recommended for Agent Users)
+### Install the SKILL (Optional, Recommended for Agent Users)
 
-If you plan to use mimo inside AI Agents like Claude Code, OpenClaw, or Cursor, installing the official SKILL.md is recommended — it helps the Agent make better decisions without having to look up `--help` each time:
+If you plan to use MiMo inside AI Agents like Claude Code, OpenClaw, or Cursor, installing the official SKILL helps the Agent make smarter decisions:
 
 ```bash
 npx skills add ljj6600/MIMO-CLI -y -g
 ```
 
-The SKILL is automatically symlinked to directories like `~/.claude/skills/` and `~/.openclaw/skills/`, so Agents can pick it up on the next launch. You can skip this step if you only use mimo commands directly in the terminal.
-
-## New User Bonus
-
-If you registered on the Xiaomi MiMo Open Platform within the **last 3 days**, you're eligible for an exclusive bonus:
-
-> 🎁 Register with an invitation code and receive **¥10 in API credits** (valid for 40 days)
-
-**Three steps to claim:**
-
-1. Click the registration link: [https://platform.xiaomimimo.com?ref=6MEWY6](https://platform.xiaomimimo.com?ref=6MEWY6)
-2. Complete account registration
-3. After logging in, enter the invitation code `6MEWY6` in the "Invitation Code" section at the bottom left of the console
-
-The credits can be used across all MiMo model capabilities, including chat, multimodal understanding, speech recognition, and synthesis.
+> The SKILL is automatically symlinked to `~/.claude/skills/` and `~/.openclaw/skills/` — Agents will pick it up on their next launch. You can skip this if you only use `mimo` commands directly in your terminal.
 
 ---
 
 ## Quick Start
-
-### Out of the Box
 
 ```bash
 # Chat
@@ -104,11 +83,11 @@ mimo chat -m "Hello, introduce yourself"
 # Interactive multi-turn conversation
 mimo repl
 
-# Chain-of-thought reasoning
-mimo chat -m "Analyze the prospects of quantum computing" --thinking
+# Deep thinking
+mimo chat -m "Analyze the future of quantum computing" --thinking
 
 # Web search
-mimo chat -m "What's the weather like in Beijing today?" --search
+mimo chat -m "What's the weather in Beijing today?" --search
 
 # Image understanding
 mimo vision --image photo.jpg -p "Describe this image"
@@ -135,22 +114,22 @@ mimo language zh
 
 ## Features
 
-- **Chat Completion** — Single-turn and multi-turn conversations with chain-of-thought and web search (with geolocation)
-- **Multimodal Understanding** — Image, audio, and video content understanding (URL mode supports up to 300MB)
-- **Speech Recognition (ASR)** — wav/mp3 audio to text with streaming output
-- **Text-to-Speech (TTS)** — Preset voice synthesis / voice cloning / custom voice design
-- **Deep Thinking** — Use `--thinking` to display the reasoning process
+- **Chat Completion** — Single-turn and multi-turn conversations with chain-of-thought reasoning and web search (with geolocation)
+- **Multimodal Understanding** — Image, audio, and video understanding (URL mode supports up to 300MB)
+- **Speech Recognition (ASR)** — Convert wav/mp3 audio to text, with streaming support
+- **Text-to-Speech (TTS)** — Preset voices, voice cloning, and custom voice design
+- **Deep Thinking** — Use `--thinking` to display the model's reasoning process
 - **Web Search** — `--search` flag with location awareness and keyword control
 - **Streaming Output** — Real-time token-by-token output
-- **Dual Key Management** — Switch between pay-as-you-go and TokenPlan keys with one command
-- **Bilingual Interface** — Switch with `mimo language en`
-- **Security First** — Local API Key encryption, automatic output sanitization, path traversal protection
+- **Dual Key Management** — Seamlessly switch between pay-as-you-go and TokenPlan keys
+- **Bilingual Interface** — Switch between Chinese and English with `mimo language en`
+- **Security by Design** — API keys stored locally only, automatic output sanitization, path traversal protection
 
 ## Command Reference
 
 ### `mimo chat`
 
-Single-turn chat completion with deep thinking and web search support.
+Single-turn chat with deep thinking and web search support.
 
 ```bash
 mimo chat -m "Hello"                                    # Basic chat
@@ -162,7 +141,7 @@ mimo chat -m "Write code" --system "You are a Go expert" # System prompt
 
 ### `mimo repl`
 
-Interactive multi-turn conversation with conversation history.
+Interactive multi-turn conversation with automatic context management.
 
 ```bash
 mimo repl                                               # Start interactive chat
@@ -177,25 +156,25 @@ Multimodal understanding — images, audio, and video.
 ```bash
 mimo vision --image photo.jpg -p "Describe this image"             # Image understanding
 mimo vision --audio speech.mp3 -p "Summarize this audio"           # Audio understanding
-mimo vision --video clip.mp4 -p "Summarize the video" --fps 1      # Video understanding (local file)
-mimo vision --video https://example.com/v.mp4 -p "Describe"        # Video understanding (URL mode)
+mimo vision --video clip.mp4 -p "Summarize the video" --fps 1      # Video (local file)
+mimo vision --video https://example.com/v.mp4 -p "Describe"        # Video (URL mode)
 mimo vision --image a.jpg --audio b.mp3 -p "Compare the two"       # Multimodal combination
 ```
 
 ### `mimo asr`
 
-Speech recognition — audio to text.
+Speech recognition — convert audio to text.
 
 ```bash
 mimo asr recording.wav                                  # Basic speech recognition
 mimo asr audio.mp3 --language zh                        # Specify language
-mimo asr --file recording.wav --language en              # Use --file flag
+mimo asr --file recording.wav --language en              # Using --file flag
 mimo asr speech.wav --stream                            # Streaming output
 ```
 
 ### `mimo tts`
 
-Text-to-speech — generate natural speech.
+Text-to-speech — generate natural-sounding speech.
 
 ```bash
 mimo tts synthesize -t "Hello world"                               # Basic synthesis
@@ -216,21 +195,22 @@ mimo auth status                   # Check auth status
 mimo auth logout                   # Log out
 
 mimo config show                   # Show current configuration
-mimo config set --key timeout --value 600  # Set timeout
-mimo config set --key active_key --value sk # Switch key
+mimo config set --key timeout --value 600        # Set timeout
+mimo config set --key active_key --value sk      # Switch active key
 ```
 
-### `mimo language` · `mimo update`
+### `mimo language` · `mimo update` · `mimo uninstall`
 
 ```bash
 mimo language zh                   # Switch to Chinese interface
 mimo language en                   # Switch to English interface
-mimo update                        # Check and update to the latest version
+mimo update                        # Check for the latest version
+mimo uninstall                     # Uninstall the EXE-based installation (not for npm)
 ```
 
-## SDK Programmatic API
+## SDK
 
-If you need to integrate MiMo capabilities into your own TypeScript/JavaScript project, `mimo-cli` also provides a full programmatic SDK.
+`mimo-cli` also ships with a full TypeScript/JavaScript SDK, so you can integrate MiMo capabilities directly into your own projects.
 
 ```typescript
 import { MiMoSDK } from 'mimo-cli/sdk';
@@ -263,22 +243,34 @@ const tts = await sdk.tts.synthesize({
 });
 ```
 
-The SDK shares the same underlying API client as the CLI — the calling conventions are consistent and capabilities are fully aligned.
+The SDK shares the same underlying API client as the CLI — consistent behavior, full feature parity.
+
+## Agent Integration
+
+If you'd like your AI Agent (Claude Code, Cursor, etc.) to call MiMo directly, hand it the following prompt:
+
+```
+Please help me set up MiMo CLI (https://github.com/ljj6600/MIMO-CLI) by completing these three steps:
+
+1. Install the CLI globally: run `npm install -g mimo-cli`, then verify with `mimo --version`
+2. Log in and configure your API Key: run `mimo auth login --api-key sk-xxxxx`
+3. Install the official SKILL: run `npx skills add ljj6600/MIMO-CLI -y -g`
+```
 
 ## Default Models
 
 | Capability | Model | Description |
 |------------|-------|-------------|
-| Chat | `mimo-v2.5-pro` | General conversation, complex reasoning, deep analysis, long document processing |
-| Multimodal | `mimo-v2.5` | Image/audio/video content understanding |
+| Chat | `mimo-v2.5-pro` | General conversation, complex reasoning, deep analysis, long documents |
+| Multimodal | `mimo-v2.5` | Image/audio/video understanding |
 | Speech Recognition | `mimo-v2.5-asr` | Speech to text |
 | Text-to-Speech | `mimo-v2.5-tts` | Text to speech |
-| Voice Cloning | `mimo-v2.5-tts-voiceclone` | Clone a voice from a reference audio sample |
-| Voice Design | `mimo-v2.5-tts-voicedesign` | Generate a custom voice from a natural language description |
+| Voice Cloning | `mimo-v2.5-tts-voiceclone` | Clone a voice from a reference sample |
+| Voice Design | `mimo-v2.5-tts-voicedesign` | Generate a custom voice from a description |
 
 ## Configuration
 
-The configuration file is located at `~/.mimo/config.json`:
+Config file location: `~/.mimo/config.json`
 
 ```json
 {
@@ -291,7 +283,7 @@ The configuration file is located at `~/.mimo/config.json`:
 }
 ```
 
-**Configuration priority**: CLI flags > Environment variables > Config file > Built-in defaults
+**Priority order**: CLI flags > Environment variables > Config file > Built-in defaults
 
 ### Environment Variables
 
@@ -299,17 +291,17 @@ The configuration file is located at `~/.mimo/config.json`:
 |----------|-------------|
 | `MIMO_API_KEY` | API key |
 | `MIMO_BASE_URL` | API base URL |
-| `MIMO_CONFIG_DIR` | Configuration directory (default: `~/.mimo`) |
+| `MIMO_CONFIG_DIR` | Config directory (default: `~/.mimo`) |
 | `MIMO_OUTPUT` | Output format (text/json) |
 | `MIMO_TIMEOUT` | Request timeout in seconds |
 | `HTTPS_PROXY` | Proxy settings |
 
 ## Security
 
-- API Keys are stored locally in `~/.mimo/config.json` with 0o600 permissions
-- All output is automatically sanitized to prevent API Key leaks
+- API keys are stored locally in `~/.mimo/config.json` with 0o600 permissions
+- All output is automatically sanitized to prevent accidental API key leaks
 - File path traversal protection
-- Video file size validation (Base64 ≤ 37.5MB / URL ≤ 300MB)
+- Video file size limits enforced (Base64 ≤ 37.5MB / URL ≤ 300MB)
 
 ## Development
 
@@ -317,11 +309,14 @@ The configuration file is located at `~/.mimo/config.json`:
 # Install dependencies
 bun install
 
-# Run in development mode (execute TypeScript directly without building)
+# Run in development mode (execute TypeScript directly, no build step)
 bun run dev
 
 # Build (output to dist/)
 bun run build
+
+# Build Windows standalone executable
+bun run build:exe
 
 # Type checking
 bun run typecheck
@@ -332,13 +327,11 @@ bun run lint
 
 ## Architecture
 
-mimo-cli uses a four-layer architecture:
-
 ```
-CLI Layer (Commands)       ← The mimo xxx commands you run
-SDK Layer (Programmatic)   ← You can also call it from TypeScript
-API Client Layer (Client)  ← OpenAI-compatible protocol, easy to switch
-MiMo AI Platform API       ← Xiaomi's large model capabilities
+CLI Layer (Commands)         ← The mimo xxx commands you run
+SDK Layer (Programmatic)     ← Also callable from TypeScript
+API Client Layer (Client)    ← OpenAI-compatible, easy to swap
+MiMo AI Platform API         ← Xiaomi's large model capabilities
 ```
 
 ## License

@@ -2,7 +2,7 @@
   "name": "mimo-cli",
   "version": "0.1.7",
   "type": "module",
-  "description": "MiMo AI Platform Command Line Interface — 对话、多模态理解、语音识别与合成",
+  "description": "MiMo AI Platform Command Line Interface",
   "bin": {
     "mimo": "dist/mimo.mjs"
   },
@@ -25,38 +25,17 @@
     "dev": "bun run src/main.ts",
     "build": "bun run build.ts",
     "build:dev": "bun run build.ts --dev",
+    "build:exe": "bun run build.ts --exe",
     "lint": "eslint src/",
     "typecheck": "tsc --noEmit",
     "test": "bun test",
     "test:watch": "bun test --watch",
     "prepublishOnly": "bun run build"
   },
-  "keywords": [
-    "mimo",
-    "mimo-cli",
-    "xiaomi",
-    "ai",
-    "cli",
-    "chat",
-    "vision",
-    "asr",
-    "tts",
-    "llm"
-  ],
-  "author": "ljj6600",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ljj6600/MIMO-CLI.git"
-  },
-  "bugs": {
-    "url": "https://github.com/ljj6600/MIMO-CLI/issues"
-  },
-  "homepage": "https://github.com/ljj6600/MIMO-CLI#readme",
   "dependencies": {
-    "openai": "^6.0.0",
     "@clack/prompts": "^0.7.0",
     "es-toolkit": "^1.46.1",
+    "openai": "^6.0.0",
     "undici": "^6.21.1"
   },
   "devDependencies": {
