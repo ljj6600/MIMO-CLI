@@ -41,13 +41,27 @@
 
 > 安装路径为 `%LOCALAPPDATA%\mimo\`，不修改系统文件。如需卸载，在终端执行 `mimo uninstall` 即可清除。
 
-### 方式二：npm 全局安装（推荐，需 Node.js 18+）
+### 方式二：npm 全局安装（手动安装，需 Node.js 18+）
 
 ```bash
 npm install -g mimo-cli
 ```
 
 > 需要 [Node.js](https://nodejs.org/) 18+ 运行环境。npm 安装更稳定，版本更新更及时，推荐有 Node.js 环境的用户使用。
+
+### 方式三：通过 Agent 安装
+
+如果你正在使用 Claude Code、OpenClaw、Cursor 等 AI Agent，可以直接让 Agent 帮你完成安装与配置。复制以下提示词发送给 Agent：
+
+```
+请帮我接入 MiMo CLI（`https://github.com/ljj6600/MIMO-CLI`），按以下三步完成安装与配置：
+
+1. 全局安装 CLI：执行 `npm install -g mimo-cli`，完成后用 `mimo --version` 验证
+2. 登录并配置 API Key：执行 `mimo auth login --api-key sk-xxxxx`
+3. 安装官方 SKILL：执行 `npx skills add ljj6600/MIMO-CLI -y -g`
+
+完成后请执行 `mimo chat -m "你好"` 查看 MiMo 的回复，确认整体配置生效。
+```
 
 ### 配置 API Key
 
@@ -61,16 +75,6 @@ mimo auth login --api-key sk-xxxxx
 - **按量计费 Key**（`sk-` 开头）→ [申请地址](https://platform.xiaomimimo.com/console/api-keys)，自动匹配 `https://api.xiaomimimo.com/v1`
 
 CLI 会根据 Key 前缀自动识别类型并配置对应的接口地址，无需手动设置。
-
-### 安装 SKILL（可选，推荐 Agent 用户）
-
-如果要在 Claude Code、OpenClaw、Cursor 等 AI Agent 中调用 MiMo，建议安装官方 SKILL，让 Agent 的调用更精准：
-
-```bash
-npx skills add ljj6600/MIMO-CLI -y -g
-```
-
-> 安装后，SKILL 会自动链接到 `~/.claude/skills/`、`~/.openclaw/skills/` 等目录，Agent 重启后即可识别。仅在终端直接使用 `mimo` 命令的用户可以跳过此步。
 
 ## 新用户福利
 

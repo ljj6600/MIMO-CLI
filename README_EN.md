@@ -41,13 +41,27 @@ No Node.js required — download and run.
 
 > The program is installed to `%LOCALAPPDATA%\mimo\` and does not modify any system files. To uninstall, run `mimo uninstall` in your terminal.
 
-### Option 2: npm Global Install (Recommended, Requires Node.js 18+)
+### Option 2: npm Global Install (Manual Install, Requires Node.js 18+)
 
 ```bash
 npm install -g mimo-cli
 ```
 
 > Requires [Node.js](https://nodejs.org/) 18+. npm install is more stable with faster version updates — recommended for users with a Node.js environment.
+
+### Option 3: Install via Agent
+
+If you're using AI Agents like Claude Code, OpenClaw, or Cursor, you can have the Agent handle the installation and configuration for you. Copy and send the following prompt to your Agent:
+
+```
+Please help me set up MiMo CLI (`https://github.com/ljj6600/MIMO-CLI`) by completing these three steps:
+
+1. Install CLI globally: run `npm install -g mimo-cli`, then verify with `mimo --version`
+2. Log in and configure API Key: run `mimo auth login --api-key sk-xxxxx`
+3. Install the official SKILL: run `npx skills add ljj6600/MIMO-CLI -y -g`
+
+After completion, please run `mimo chat -m "Hello"` to verify MiMo's response and confirm the setup is working.
+```
 
 ### Configure Your API Key
 
@@ -61,16 +75,6 @@ Get your key from the [MiMo Platform](https://platform.xiaomimimo.com). Two key 
 - **Pay-as-you-go Key** (`sk-` prefix) → [Apply here](https://platform.xiaomimimo.com/console/api-keys), auto-configures `https://api.xiaomimimo.com/v1`
 
 The CLI automatically detects the key prefix and sets the correct base URL — no manual configuration needed.
-
-### Install the SKILL (Optional, Recommended for Agent Users)
-
-If you plan to use MiMo inside AI Agents like Claude Code, OpenClaw, or Cursor, installing the official SKILL helps the Agent make smarter decisions:
-
-```bash
-npx skills add ljj6600/MIMO-CLI -y -g
-```
-
-> The SKILL is automatically symlinked to `~/.claude/skills/` and `~/.openclaw/skills/` — Agents will pick it up on their next launch. You can skip this if you only use `mimo` commands directly in your terminal.
 
 ---
 
