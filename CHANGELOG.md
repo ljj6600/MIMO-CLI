@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.0] - 2026-06-08
+
+### Added
+- 完整 i18n 国际化支持：所有命令的用户可见文本均支持中英文切换（`mimo config set language zh/en`）
+- 新增 quota 命令组：`mimo quota`、`mimo quota bill`、`mimo quota usage`、`mimo quota recharge`
+- 新增 59 个 i18n 翻译 key，覆盖全部命令的 description、usage、examples、错误提示等
+- 文本输出格式（`--output text`）支持中文对齐，中文字符按双宽度计算
+- 子命令自动列出：父命令 `--help` 自动展示已注册的子命令列表
+- 项目规则新增测试报告规范（8 个维度）和 npm 源切换说明
+
+### Changed
+- 命令 description 统一使用 i18n key，由 registry 在打印时调用 `t()` 翻译
+- `auth status` 输出中 keyType 和 standbyKey 标签支持中英文
+- `config show` 输出中 tpApiKey/skApiKey 标签支持中英文
+- `vision` 命令错误提示 hint 支持中英文
+
+### Fixed
+- 修复 `auth/status.ts` 中硬编码中文"按量计费"和"TokenPlan"，英文模式下不再显示中文
+- 修复 `config/show.ts` 中硬编码中文"按量计费"和"TokenPlan"
+- 修复 `vision.ts` 中 CLIError hint 硬编码中文路径占位符"路径|URL"和"文本"
+- 修复 `auth/logout.ts` 缺少 i18n 翻译
+- 修复 `config/set.ts` 缺少 i18n 翻译
+- 修复 `help.ts`、`update.ts`、`chat.ts` 等命令缺少 i18n 翻译
+
 ## [0.1.5] - 2026-06-05
 
 ### Fixed
