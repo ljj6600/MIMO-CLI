@@ -2,8 +2,8 @@
   <a href="https://www.npmjs.com/package/mimo-cli">
     <img src="https://img.shields.io/npm/v/mimo-cli.svg" alt="npm version">
   </a>
-  <a href="LICENSE">
-    <img src="https://img.shields.io/github/license/ljj6600/MIMO-CLI" alt="License">
+  <a href="https://github.com/ljj6600/MIMO-CLI/blob/main/LICENSE">
+    <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License">
   </a>
   <a href="https://nodejs.org/">
     <img src="https://img.shields.io/badge/node-%3E%3D18-brightgreen" alt="Node >= 18">
@@ -276,18 +276,6 @@ const tts = await sdk.tts.synthesize({
 ```
 
 SDK 与 CLI 使用同一套底层 API 客户端，调用方式完全一致。
-
-## Agent 集成
-
-如果你想让 AI Agent（如 Claude Code、Cursor 等）直接调用 MiMo 能力，可以将以下提示词交给你的 Agent：
-
-```
-请帮我接入 MiMo CLI（`https://github.com/ljj6600/MIMO-CLI`），按以下三步完成安装与配置：
-
-1. 全局安装 CLI：执行 `npm install -g mimo-cli`，完成后用 `mimo --version` 验证
-2. 登录并配置 API Key：执行 `mimo auth login --api-key sk-xxxxx`
-3. 安装官方 SKILL：执行 `npx skills add ljj6600/MIMO-CLI -y -g`
-```
 
 ## 默认模型
 

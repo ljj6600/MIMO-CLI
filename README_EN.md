@@ -2,8 +2,8 @@
   <a href="https://www.npmjs.com/package/mimo-cli">
     <img src="https://img.shields.io/npm/v/mimo-cli.svg" alt="npm version">
   </a>
-  <a href="LICENSE">
-    <img src="https://img.shields.io/github/license/ljj6600/MIMO-CLI" alt="License">
+  <a href="https://github.com/ljj6600/MIMO-CLI/blob/main/LICENSE">
+    <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License">
   </a>
   <a href="https://nodejs.org/">
     <img src="https://img.shields.io/badge/node-%3E%3D18-brightgreen" alt="Node >= 18">
@@ -21,7 +21,6 @@
   <a href="#installation">Installation</a> ·
   <a href="#quick-start">Quick Start</a> ·
   <a href="#command-reference">Command Reference</a> ·
-  <a href="#agent-integration">Agent Integration</a> ·
   <a href="#sdk">SDK</a> ·
   <a href="#default-models">Default Models</a> ·
   <a href="#configuration">Configuration</a>
