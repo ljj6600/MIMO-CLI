@@ -10,7 +10,6 @@ All notable changes to this project will be documented in this file.
 - 新增 59 个 i18n 翻译 key，覆盖全部命令的 description、usage、examples、错误提示等
 - 文本输出格式（`--output text`）支持中文对齐，中文字符按双宽度计算
 - 子命令自动列出：父命令 `--help` 自动展示已注册的子命令列表
-- 项目规则新增测试报告规范（8 个维度）和 npm 源切换说明
 
 ### Changed
 - 命令 description 统一使用 i18n key，由 registry 在打印时调用 `t()` 翻译
