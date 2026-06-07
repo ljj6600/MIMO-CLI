@@ -15,6 +15,7 @@ const ALLOWED_KEYS = new Set([
   'timeout',
   'default_model',
   'language',
+  'platform_cookie',
 ]);
 
 // 允许的 key 格式：只包含字母、数字、下划线
@@ -33,6 +34,11 @@ export const configSetCommand = defineCommand({
     'mimo config set --key output --value json',
     'mimo config set --key timeout --value 60',
     'mimo config set --key default_model --value MiMo-7B-RL',
+    'mimo config set --key active_key --value sk',
+    'mimo config set --key active_key --value tp',
+    'mimo config set --key language --value en',
+    'mimo config set --key api_key --value tp-xxxxx',
+    'mimo config set --key sk_api_key --value sk-xxxxx',
   ],
   async run(_config: Config, flags: Record<string, unknown>): Promise<void> {
     const key = flags.key as string | undefined;

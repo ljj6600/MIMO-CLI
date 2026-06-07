@@ -125,6 +125,12 @@ class CommandRegistry {
 
     if (node.command) {
       this.printCommandHelp(node.command, out);
+      // 如果该命令还有子命令，追加子命令列表
+      if (node.children.size > 0) {
+        const prefix = commandPath.join(' ');
+        out.write(`\n${this.bold(t('help.commands'), out)}\n`);
+        this.printChildren(node, prefix, out);
+      }
       return;
     }
 

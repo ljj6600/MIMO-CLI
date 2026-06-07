@@ -154,6 +154,7 @@ mimo language zh
 - **联网搜索** — `--search` 参数，支持位置感知与关键词控制
 - **流式输出** — 逐 token 实时输出，所见即所得
 - **双 Key 管理** — 按量计费与 TokenPlan Key 一键切换
+- **用量查询** — 套餐用量、账户余额、详细用量、月度账单、累计充值，一键掌握
 - **中英文界面** — 通过 `mimo language en` 自由切换
 - **安全防护** — API Key 仅存本地、输出自动脱敏、路径遍历防护
 
@@ -230,6 +231,20 @@ mimo config show                   # 查看当前配置
 mimo config set --key timeout --value 600        # 设置超时时间
 mimo config set --key active_key --value sk      # 切换使用的 Key
 ```
+
+### `mimo quota`
+
+查询套餐用量与账户余额。自动根据当前 Key 类型选择查询内容：TokenPlan Key 查套餐用量，按量计费 Key 查账户余额。
+
+```bash
+mimo quota                         # 查询套餐用量（tp Key）或账户余额（sk Key）
+mimo quota --cookie "serviceToken=...; userId=..."   # 指定 Cookie
+mimo quota usage                   # 详细用量：Token 消耗、费用、插件调用、速率限制
+mimo quota bill                    # 月度账单
+mimo quota recharge                # 累计充值金额
+```
+
+> Cookie 可从 `platform.xiaomimimo.com` 的浏览器开发者工具中获取，首次使用会提示输入并自动保存。
 
 ### `mimo language` · `mimo update` · `mimo uninstall`
 

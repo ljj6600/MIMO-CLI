@@ -32,6 +32,9 @@ export const updateCommand = defineCommand({
   name: 'update',
   description: 'cmd.update.desc',
   usage: 'mimo update',
+  examples: [
+    'mimo update',
+  ],
   async run(): Promise<void> {
     // 1. 查询 npm registry 最新版本
     process.stderr.write(t('update.checking') + '\n');

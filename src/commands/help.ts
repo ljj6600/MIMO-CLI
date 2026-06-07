@@ -8,6 +8,11 @@ export const helpCommand = defineCommand({
   options: [
     { flag: '--command <path>', description: 'flag.help.command' },
   ],
+  examples: [
+    'mimo help',
+    'mimo help chat',
+    'mimo help tts synthesize',
+  ],
   async run(_config: unknown, flags: Record<string, unknown>): Promise<void> {
     const commandPath = typeof flags.command === 'string'
       ? flags.command.split(' ')

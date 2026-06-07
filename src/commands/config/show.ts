@@ -12,6 +12,9 @@ export const configShowCommand = defineCommand({
   name: 'config show',
   description: 'cmd.configShow.desc',
   usage: 'mimo config show',
+  examples: [
+    'mimo config show',
+  ],
   async run(config: Config, _flags: Record<string, unknown>): Promise<void> {
     const file = readConfigFile();
     const data: Record<string, unknown> = {
@@ -24,13 +27,13 @@ export const configShowCommand = defineCommand({
     };
 
     if (file.api_key) {
-      data.tpApiKey = maskApiKey(file.api_key) + ' (TokenPlan)';
+      data.tpApiKey = maskApiKey(file.api_key) + ' (' + t('general.keyTypeTp') + ')';
     } else {
       data.tpApiKey = t('general.notSet');
     }
 
     if (file.sk_api_key) {
-      data.skApiKey = maskApiKey(file.sk_api_key) + ' (按量计费)';
+      data.skApiKey = maskApiKey(file.sk_api_key) + ' (' + t('general.keyTypePay') + ')';
     } else {
       data.skApiKey = t('general.notSet');
     }

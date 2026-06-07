@@ -38,6 +38,8 @@ export default defineCommand({
     'mimo chat -m "Latest news" --search',
     'mimo chat -m "武汉明天天气" --search --user-city 武汉',
     'mimo chat -m "Return JSON" --json --no-stream',
+    'mimo chat -m "Translate" --system "You are a translator"',
+    'mimo chat -m "Short answer" --max-tokens 100 --temperature 0.5',
   ],
   async run(config: Config, rawFlags: Record<string, unknown>) {
     const flags = rawFlags as GlobalFlags & ChatFlags;

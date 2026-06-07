@@ -1,11 +1,11 @@
 ---
 name: mimo-cli
-description: Use mimo to chat, understand images/audio/video, recognize speech, and synthesize voice via the MiMo AI platform. Use when the user wants to have conversations, analyze media content, perform speech recognition, or generate speech from the terminal.
+description: Use mimo to chat, understand images/audio/video, recognize speech, synthesize voice, and query quota/balance/usage/bills via the MiMo AI platform. Use when the user wants to have conversations, analyze media content, perform speech recognition, generate speech, or check their plan usage, account balance, or billing from the terminal.
 ---
 
 # MiMo CLI — Agent Skill Guide
 
-Use `mimo` to chat, understand multimodal content, recognize speech, and synthesize voice via the MiMo AI platform.
+Use `mimo` to chat, understand multimodal content, recognize speech, synthesize voice, and query quota/balance/usage/bills via the MiMo AI platform.
 
 ## Prerequisites
 
@@ -297,6 +297,97 @@ mimo tts voices [--output json]
 
 ---
 
+### quota
+
+Query plan quota or account balance. Requires a platform cookie (not an API key). Automatically selects the right query based on active key type:
+- **TokenPlan key (`tp-`)** → shows plan usage (套餐积分, 补偿积分)
+- **Pay-as-you-go key (`sk-`)** → shows account balance (总余额, 现金余额, 赠送余额, etc.)
+
+```bash
+mimo quota [--cookie <cookie>] [--output json] [--quiet]
+```
+
+| Flag | Type | Description |
+|---|---|---|
+| `--cookie <value>` | string | Platform cookie (overrides config file value) |
+
+**How to get the cookie:**
+1. Log in to `platform.xiaomimimo.com` in your browser
+2. Open Developer Tools → Network tab
+3. Find any request to the platform API and copy the `Cookie` header value
+
+**Save cookie for reuse:**
+```bash
+mimo config set --key platform_cookie --value "serviceToken=...; userId=..."
+```
+
+```bash
+# Query with cookie directly
+mimo quota --cookie "serviceToken=...; userId=..." --output json --quiet
+
+# After saving cookie to config, just run:
+mimo quota --output json --quiet
+```
+
+**stdout**: table showing plan/balance details. In JSON mode, returns an array of objects.
+
+**Important:**
+- This command uses cookie-based authentication (not API key), so it does not require `mimo auth login`
+- Cookie values expire; if queries fail, re-obtain the cookie from the browser
+
+---
+
+### quota usage
+
+Query detailed usage: token consumption, cost, plugin requests, and rate limits. Works with any key type (only requires a valid cookie).
+
+```bash
+mimo quota usage [--cookie <cookie>] [--output json] [--quiet]
+```
+
+```bash
+mimo quota usage --output json --quiet
+mimo quota usage --cookie "serviceToken=...; userId=..."
+```
+
+**stdout**: table showing input/output/cache/total tokens, cumulative & monthly cost, plugin & search request counts, TPM/RPM/concurrency limits.
+
+---
+
+### quota bill
+
+Query monthly bills. Works with any key type (only requires a valid cookie).
+
+```bash
+mimo quota bill [--cookie <cookie>] [--output json] [--quiet]
+```
+
+```bash
+mimo quota bill --output json --quiet
+mimo quota bill --cookie "serviceToken=...; userId=..."
+```
+
+**stdout**: table showing each month's total, cash, and gift consumption amounts.
+
+---
+
+### quota recharge
+
+Query accumulated recharge amount. Works with any key type (only requires a valid cookie).
+
+```bash
+mimo quota recharge [--cookie <cookie>] [--output json] [--quiet]
+```
+
+```bash
+mimo quota recharge --output json --quiet
+mimo quota recharge --cookie "serviceToken=...; userId=..."
+```
+
+**stdout**: table showing accumulated recharge amount and currency.
+
+---
+
 ### auth login
 
 Log in with a MiMo API key.
@@ -350,12 +441,13 @@ Set a configuration value.
 mimo config set --key <key> --value <value>
 ```
 
-**Valid keys:** `api_key`, `sk_api_key`, `active_key`, `base_url`, `output`, `timeout`, `default_model`, `language`
+**Valid keys:** `api_key`, `sk_api_key`, `active_key`, `base_url`, `output`, `timeout`, `default_model`, `language`, `platform_cookie`
 
 ```bash
 mimo config set --key output --value json
 mimo config set --key timeout --value 60
 mimo config set --key default_model --value mimo-v2.5-pro
+mimo config set --key platform_cookie --value "serviceToken=...; userId=..."
 ```
 
 ---
@@ -452,6 +544,18 @@ mimo chat -m "Summarize: $TEXT" --quiet
 
 # Vision pipeline
 mimo vision --image photo.jpg -p "Describe" --output json --quiet | jq '.choices[0].message.content'
+
+# Check quota and extract remaining amount
+mimo quota --cookie "..." --output json --quiet | jq '.[0].剩余'
+
+# Check balance (sk key)
+mimo quota --output json --quiet | jq '.[0].剩余'
+
+# Check usage details
+mimo quota usage --output json --quiet | jq '.[] | select(.套餐类型 == "累计消费")'
+
+# Check monthly bills
+mimo quota bill --output json --quiet | jq '.[0]'
 ```
 
 ---

@@ -139,6 +139,7 @@ mimo language zh
 - **Web Search** — `--search` flag with location awareness and keyword control
 - **Streaming Output** — Real-time token-by-token output
 - **Dual Key Management** — Seamlessly switch between pay-as-you-go and TokenPlan keys
+- **Quota & Billing** — Plan usage, account balance, detailed usage, monthly bills, and recharge history at your fingertips
 - **Bilingual Interface** — Switch between Chinese and English with `mimo language en`
 - **Security by Design** — API keys stored locally only, automatic output sanitization, path traversal protection
 
@@ -215,6 +216,20 @@ mimo config show                   # Show current configuration
 mimo config set --key timeout --value 600        # Set timeout
 mimo config set --key active_key --value sk      # Switch active key
 ```
+
+### `mimo quota`
+
+Query plan quota or account balance. Automatically selects the right query based on active key type: TokenPlan key shows plan usage, pay-as-you-go key shows account balance.
+
+```bash
+mimo quota                         # Plan usage (tp key) or account balance (sk key)
+mimo quota --cookie "serviceToken=...; userId=..."   # Specify Cookie
+mimo quota usage                   # Detailed usage: tokens, cost, plugins, rate limits
+mimo quota bill                    # Monthly bills
+mimo quota recharge                # Accumulated recharge amount
+```
+
+> Cookie can be obtained from your browser's developer tools on `platform.xiaomimimo.com`. On first use, you'll be prompted to enter it and it will be saved automatically.
 
 ### `mimo language` · `mimo update` · `mimo uninstall`
 

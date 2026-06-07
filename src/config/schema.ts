@@ -7,6 +7,7 @@ export interface ConfigFile {
   timeout?: number;
   default_model?: string;
   language?: 'zh' | 'en';
+  platform_cookie?: string;
 }
 
 const VALID_OUTPUTS = new Set<string>(['text', 'json']);
@@ -24,6 +25,7 @@ export function parseConfigFile(raw: unknown): ConfigFile {
   if (typeof obj.timeout === 'number' && obj.timeout > 0) out.timeout = obj.timeout;
   if (typeof obj.default_model === 'string' && obj.default_model.length > 0) out.default_model = obj.default_model;
   if (typeof obj.language === 'string' && (obj.language === 'zh' || obj.language === 'en')) out.language = obj.language as ConfigFile['language'];
+  if (typeof obj.platform_cookie === 'string') out.platform_cookie = obj.platform_cookie;
 
   return out;
 }
@@ -44,4 +46,5 @@ export interface Config {
   dryRun: boolean;
   nonInteractive: boolean;
   language?: string;
+  platformCookie?: string;
 }

@@ -88,5 +88,6 @@ export function loadConfig(flags: GlobalFlags): Config {
     noColor: flags.noColor || process.env.NO_COLOR !== undefined || !process.stdout.isTTY,
     dryRun: flags.dryRun || false,
     nonInteractive: flags.nonInteractive || false,
+    platformCookie: file.platform_cookie,
   };
 }

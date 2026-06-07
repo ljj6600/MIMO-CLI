@@ -46,7 +46,7 @@ export default defineCommand({
       throw new CLIError(
         t('vision.noMedia'),
         ExitCode.USAGE,
-        'mimo vision --image <路径|URL> --prompt <文本>',
+        t('vision.hintNoMedia'),
       );
     }
 
@@ -54,7 +54,7 @@ export default defineCommand({
       throw new CLIError(
         t('vision.noPrompt'),
         ExitCode.USAGE,
-        'mimo vision --image <路径|URL> -p <文本>',
+        t('vision.hintNoPrompt'),
       );
     }
 

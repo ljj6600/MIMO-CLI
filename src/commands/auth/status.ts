@@ -3,15 +3,19 @@ import type { Config } from '../../config/schema';
 import { resolveCredential, inferBaseUrlFromKey } from '../../auth/resolver';
 import { maskApiKey } from '../../utils/sanitize';
 import { formatOutput } from '../../output/formatter';
+import { t } from '../../i18n';
 
 export const authStatusCommand = defineCommand({
   name: 'auth status',
   description: 'cmd.authStatus.desc',
   usage: 'mimo auth status',
+  examples: [
+    'mimo auth status',
+  ],
   async run(config: Config, _flags: Record<string, unknown>): Promise<void> {
     try {
       const cred = resolveCredential(config);
-      const keyType = cred.token.startsWith('tp-') ? 'TokenPlan' : '按量计费';
+      const keyType = cred.token.startsWith('tp-') ? t('general.keyTypeTp') : t('general.keyTypePay');
       const inferredBaseUrl = inferBaseUrlFromKey(cred.token);
       const data: Record<string, unknown> = {
         authenticated: true,
@@ -26,9 +30,9 @@ export const authStatusCommand = defineCommand({
 
       // 显示另一个 Key 的状态
       if (config.activeKey === 'tp' && config.fileSkApiKey) {
-        data.standbyKey = maskApiKey(config.fileSkApiKey) + ' (按量计费)';
+        data.standbyKey = maskApiKey(config.fileSkApiKey) + ' (' + t('general.keyTypePay') + ')';
       } else if (config.activeKey === 'sk' && config.fileApiKey) {
-        data.standbyKey = maskApiKey(config.fileApiKey) + ' (TokenPlan)';
+        data.standbyKey = maskApiKey(config.fileApiKey) + ' (' + t('general.keyTypeTp') + ')';
       }
 
       console.log(formatOutput(data, config));

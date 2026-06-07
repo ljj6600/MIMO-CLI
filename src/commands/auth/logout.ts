@@ -7,6 +7,9 @@ export const authLogoutCommand = defineCommand({
   name: 'auth logout',
   description: 'cmd.authLogout.desc',
   usage: 'mimo auth logout',
+  examples: [
+    'mimo auth logout',
+  ],
   async run(config: Config, _flags: Record<string, unknown>): Promise<void> {
     const data = readConfigFile() as Record<string, unknown>;
 

@@ -18,6 +18,10 @@ import { updateCommand } from './commands/update';
 import { helpCommand } from './commands/help';
 import { languageCommand } from './commands/language';
 import { uninstallCommand } from './commands/uninstall';
+import { quotaCommand } from './commands/quota';
+import { quotaUsageCommand } from './commands/quota/usage';
+import { quotaBillCommand } from './commands/quota/bill';
+import { quotaRechargeCommand } from './commands/quota/recharge';
 
 // Command imports — API commands (created by another agent in parallel, using default exports)
 import chatCommand from './commands/chat';
@@ -48,6 +52,10 @@ registry.register('update', updateCommand);
 registry.register('help', helpCommand);
 registry.register('language', languageCommand);
 registry.register('uninstall', uninstallCommand);
+registry.register('quota', quotaCommand);
+registry.register('quota usage', quotaUsageCommand);
+registry.register('quota bill', quotaBillCommand);
+registry.register('quota recharge', quotaRechargeCommand);
 
 // Commands that don't require authentication
 const NO_AUTH_COMMANDS = [
@@ -60,6 +68,7 @@ const NO_AUTH_COMMANDS = [
   ['help'],
   ['language'],
   ['uninstall'],
+  ['quota'],
 ];
 
 // Handle Ctrl+C gracefully

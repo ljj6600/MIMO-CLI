@@ -184,6 +184,38 @@ const translations: Record<string, Record<Locale, string>> = {
   'cmd.update.desc': { zh: '更新 MiMo CLI', en: 'Self-update the MiMo CLI' },
   'cmd.help.desc': { zh: '显示命令帮助', en: 'Show help for commands' },
   'cmd.language.desc': { zh: '切换界面语言（zh/en）', en: 'Switch interface language (zh/en)' },
+  'cmd.quota.desc': { zh: '查询套餐用量或账户余额', en: 'Query plan quota or account balance' },
+  'cmd.quotaUsage.desc': { zh: '查询详细用量（Token、费用、插件、速率）', en: 'Query detailed usage (tokens, cost, plugins, rate limits)' },
+  'cmd.quotaBill.desc': { zh: '查询月度账单', en: 'Query monthly bills' },
+  'cmd.quotaRecharge.desc': { zh: '查询累计充值金额', en: 'Query accumulated recharge amount' },
+
+  // ---- quota 数据标签 ----
+  'quota.planTokenPlan': { zh: '套餐积分', en: 'Plan Tokens' },
+  'quota.planCompensation': { zh: '补偿积分', en: 'Compensation Tokens' },
+  'quota.unitBaiM': { zh: '百M', en: 'M×100' },
+  'quota.balanceTotal': { zh: '总余额', en: 'Total Balance' },
+  'quota.balanceCash': { zh: '现金余额', en: 'Cash Balance' },
+  'quota.balanceGift': { zh: '赠送余额', en: 'Gift Balance' },
+  'quota.balanceFrozen': { zh: '冻结金额', en: 'Frozen Amount' },
+  'quota.balanceOverdraft': { zh: '透支额度', en: 'Overdraft Limit' },
+  'quota.balanceOverdraftRemain': { zh: '剩余透支额度', en: 'Remaining Overdraft' },
+  'quota.inputToken': { zh: '输入 Token', en: 'Input Tokens' },
+  'quota.outputToken': { zh: '输出 Token', en: 'Output Tokens' },
+  'quota.cacheToken': { zh: '缓存 Token', en: 'Cache Tokens' },
+  'quota.totalToken': { zh: '总计 Token', en: 'Total Tokens' },
+  'quota.totalCost': { zh: '累计消费', en: 'Total Cost' },
+  'quota.monthCost': { zh: '本月消费', en: 'Current Month Cost' },
+  'quota.pluginRequests': { zh: '插件请求次数', en: 'Plugin Requests' },
+  'quota.webSearchRequests': { zh: '联网搜索次数', en: 'Web Search Requests' },
+  'quota.tpmLimit': { zh: 'TPM 限制', en: 'TPM Limit' },
+  'quota.rpmLimit': { zh: 'RPM 限制', en: 'RPM Limit' },
+  'quota.concurrency': { zh: '并发数', en: 'Concurrency' },
+  'quota.unitRequests': { zh: '次', en: 'reqs' },
+  'quota.unitReqMin': { zh: '次/min', en: 'reqs/min' },
+  'quota.billTotal': { zh: '{month} 消费总额', en: '{month} Total' },
+  'quota.billCash': { zh: '{month} 现金消费', en: '{month} Cash' },
+  'quota.billGift': { zh: '{month} 赠送消费', en: '{month} Gift' },
+  'quota.rechargeTotal': { zh: '累计充值', en: 'Accumulated Recharge' },
 
   // ---- 视频理解错误 ----
   'vision.videoTooLarge': {
@@ -363,6 +395,9 @@ const translations: Record<string, Record<Locale, string>> = {
   // ---- Auth 选项 ----
   'flag.auth.apiKey': { zh: '直接保存 API Key（跳过交互式输入）', en: 'API key to save (skips interactive prompt)' },
 
+  // ---- Quota 选项 ----
+  'flag.quota.cookie': { zh: '平台 Cookie（覆盖配置文件中的值）', en: 'Platform cookie (overrides config file value)' },
+
   // ---- Registry 错误 ----
   'registry.unknownCommand': { zh: '未知命令：mimo {command}', en: 'Unknown command: mimo {command}' },
   'registry.availableCommands': { zh: '可用命令：', en: 'Available commands:' },
@@ -371,6 +406,26 @@ const translations: Record<string, Record<Locale, string>> = {
 
   // ---- 卸载 ----
   'cmd.uninstall.desc': { zh: '卸载 exe 安装的 MiMo CLI', en: 'Uninstall exe-installed MiMo CLI' },
+
+  // ---- Quota ----
+  'quota.noCookie': { zh: '未配置平台 Cookie。请先通过 --cookie 参数或 mimo config set platform_cookie <cookie> 设置。', en: 'Platform cookie not configured. Set it via --cookie flag or: mimo config set platform_cookie <cookie>' },
+  'quota.fetching': { zh: '正在查询套餐用量...', en: 'Fetching quota usage...' },
+  'quota.fetchFailed': { zh: '查询套餐用量失败：', en: 'Failed to fetch quota usage: ' },
+  'quota.planName': { zh: '套餐类型', en: 'Plan Type' },
+  'quota.used': { zh: '已用', en: 'Used' },
+  'quota.total': { zh: '总量', en: 'Total' },
+  'quota.remaining': { zh: '剩余', en: 'Remaining' },
+  'quota.unit': { zh: '单位', en: 'Unit' },
+  'quota.usage': { zh: '使用率', en: 'Usage' },
+  'quota.cookieHint': { zh: '提示：Cookie 可从平台页面 (platform.xiaomimimo.com) 的浏览器开发者工具中获取。', en: 'Tip: Get the cookie from your browser developer tools on platform.xiaomimimo.com.' },
+  'quota.cookiePrompt': { zh: '请输入平台 Cookie：', en: 'Enter your platform cookie:' },
+  'quota.cookieSaved': { zh: 'Cookie 已保存，下次无需再输入。', en: 'Cookie saved. You won\'t need to enter it again.' },
+  'quota.skKeyHint': { zh: '当前使用的是按量计费 Key（sk-），套餐用量仅适用于 TokenPlan Key（tp-）。按量计费没有套餐额度概念，费用根据实际使用量结算。', en: 'You are currently using a pay-as-you-go key (sk-). Quota usage only applies to TokenPlan keys (tp-). Pay-as-you-go has no plan allowance — you are billed based on actual usage.' },
+  'quota.fetchingBalance': { zh: '正在查询账户余额...', en: 'Fetching account balance...' },
+  'quota.fetchingUsage': { zh: '正在查询详细用量...', en: 'Fetching detailed usage...' },
+  'quota.fetchingBill': { zh: '正在查询月度账单...', en: 'Fetching monthly bills...' },
+  'quota.fetchingRecharge': { zh: '正在查询累计充值...', en: 'Fetching accumulated recharge...' },
+  'quota.noBillData': { zh: '暂无账单数据。', en: 'No bill data available.' },
   'uninstall.notFound': { zh: '未找到 exe 安装的 MiMo CLI。', en: 'No exe-installed MiMo CLI found.' },
   'uninstall.npmHint': { zh: '如通过 npm 安装，请使用：npm uninstall -g mimo-cli', en: 'If installed via npm, use: npm uninstall -g mimo-cli' },
   'uninstall.header': { zh: 'MiMo CLI - 卸载程序', en: 'MiMo CLI - Uninstaller' },
@@ -385,6 +440,10 @@ const translations: Record<string, Record<Locale, string>> = {
   // ---- 通用 ----
   'general.notSet': { zh: '（未设置）', en: '(not set)' },
   'general.or': { zh: '或', en: 'or' },
+  'general.keyTypePay': { zh: '按量计费', en: 'Pay-as-you-go' },
+  'general.keyTypeTp': { zh: 'TokenPlan', en: 'TokenPlan' },
+  'vision.hintNoMedia': { zh: 'mimo vision --image <路径|URL> --prompt <文本>', en: 'mimo vision --image <path|url> --prompt <text>' },
+  'vision.hintNoPrompt': { zh: 'mimo vision --image <路径|URL> -p <文本>', en: 'mimo vision --image <path|url> -p <text>' },
 };
 
 // ============================================================
