@@ -6,3 +6,4 @@ dist/
 .env.local
 .npmrc
 Code Wiki.md
+CODE_WIKI.md
