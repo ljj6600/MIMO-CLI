@@ -2,31 +2,47 @@ import type { Config } from '../../config/schema';
 import { readConfigFile, writeConfigFile } from '../../config/loader';
 import { isInteractive } from '../../utils/env';
 import { promptLongText } from '../../utils/prompt';
+import { CLIError } from '../../errors/base';
+import { ExitCode } from '../../errors/codes';
 import { t } from '../../i18n';
 import { VERSION } from '../../version';
+import { autoFetchCookie } from './cookie-fetcher';
 
-/**
- * 获取有效的 Cookie：优先使用 --cookie 参数，其次配置文件，最后交互式输入。
- * 交互式输入后自动保存到配置文件。
- */
+function clearSavedCookie(): void {
+  try {
+    const data = { ...(readConfigFile() as Record<string, unknown>) };
+    delete data.platform_cookie;
+    writeConfigFile(data);
+  } catch {
+  }
+}
+
 export async function resolveCookie(config: Config, flags: Record<string, unknown>): Promise<string> {
-  const cookie = (flags.cookie as string) || config.platformCookie;
+  if (flags.cookie) return flags.cookie as string;
 
-  if (cookie) return cookie;
+  if (config.platformCookie) return config.platformCookie;
+
+  const autoCookie = await autoFetchCookie();
+  if (autoCookie) {
+    const data = { ...(readConfigFile() as Record<string, unknown>) };
+    data.platform_cookie = autoCookie;
+    await writeConfigFile(data);
+    config.platformCookie = autoCookie;
+    return autoCookie;
+  }
 
   if (!isInteractive()) {
-    process.stderr.write(t('quota.noCookie') + '\n');
-    process.exit(1);
+    throw new CLIError(t('quota.noCookie'), ExitCode.GENERAL);
   }
 
-  process.stderr.write(t('quota.cookieHint') + '\n');
+  process.stderr.write('\n' + t('quota.autoFetchFailed') + '\n');
+  process.stderr.write(t('quota.cookieHint') + '\n\n');
+
   const input = await promptLongText(t('quota.cookiePrompt'));
   if (!input) {
-    process.stderr.write(t('quota.noCookie') + '\n');
-    process.exit(1);
+    throw new CLIError(t('quota.noCookie'), ExitCode.GENERAL);
   }
 
-  // 保存到配置文件，下次无需再输入
   const data = { ...(readConfigFile() as Record<string, unknown>) };
   data.platform_cookie = input;
   await writeConfigFile(data);
@@ -36,7 +52,6 @@ export async function resolveCookie(config: Config, flags: Record<string, unknow
   return input;
 }
 
-/** 构建平台 API 请求头 */
 export function platformHeaders(cookie: string): Record<string, string> {
   return {
     Cookie: cookie,
@@ -45,7 +60,14 @@ export function platformHeaders(cookie: string): Record<string, string> {
   };
 }
 
-/** 通用平台 API 请求，失败时输出错误并退出 */
+export function checkCookieAuth(response: { code?: number }): void {
+  const code = response?.code;
+  if (code === 401 || code === 403 || code === -401 || code === -403) {
+    clearSavedCookie();
+    throw new CLIError(t('quota.cookieInvalid'), ExitCode.GENERAL, t('quota.cookieInvalidHint'));
+  }
+}
+
 export async function fetchPlatformApi<T>(url: string, cookie: string): Promise<T> {
   try {
     const resp = await fetch(url, {
@@ -53,14 +75,26 @@ export async function fetchPlatformApi<T>(url: string, cookie: string): Promise<
       headers: platformHeaders(cookie),
     });
 
+    if (resp.status === 401 || resp.status === 403) {
+      clearSavedCookie();
+      throw new CLIError(t('quota.cookieInvalid'), ExitCode.GENERAL, t('quota.cookieInvalidHint'));
+    }
+
     if (!resp.ok) {
       throw new Error(`HTTP ${resp.status}: ${resp.statusText}`);
     }
 
-    return await resp.json() as T;
+    const text = await resp.text();
+    try {
+      return JSON.parse(text) as T;
+    } catch {
+      clearSavedCookie();
+      throw new CLIError(t('quota.cookieInvalid'), ExitCode.GENERAL, t('quota.cookieInvalidHint'));
+    }
   } catch (err) {
+    if (err instanceof CLIError) throw err;
+    clearSavedCookie();
     const msg = err instanceof Error ? err.message : String(err);
-    process.stderr.write(t('quota.fetchFailed') + msg + '\n');
-    process.exit(1);
+    throw new CLIError(t('quota.fetchFailed') + msg, ExitCode.GENERAL);
   }
 }

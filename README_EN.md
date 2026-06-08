@@ -140,6 +140,7 @@ mimo language zh
 - **Streaming Output** — Real-time token-by-token output
 - **Dual Key Management** — Seamlessly switch between pay-as-you-go and TokenPlan keys
 - **Quota & Billing** — Plan usage, account balance, detailed usage, monthly bills, and recharge history at your fingertips
+- **Auto Cookie Fetch** — Automatically retrieves platform cookie from Edge browser via CDP — no manual copy-paste
 - **Bilingual Interface** — Switch between Chinese and English with `mimo language en`
 - **Security by Design** — API keys stored locally only, automatic output sanitization, path traversal protection
 
@@ -211,6 +212,7 @@ mimo auth login                    # Log in (save API Key)
 mimo auth login --api-key sk-xxx   # Non-interactive login
 mimo auth status                   # Check auth status
 mimo auth logout                   # Log out
+mimo auth cookie                   # Set platform cookie manually (for quota queries)
 
 mimo config show                   # Show current configuration
 mimo config set --key timeout --value 600        # Set timeout
@@ -229,7 +231,7 @@ mimo quota bill                    # Monthly bills
 mimo quota recharge                # Accumulated recharge amount
 ```
 
-> Cookie can be obtained from your browser's developer tools on `platform.xiaomimimo.com`. On first use, you'll be prompted to enter it and it will be saved automatically.
+> Cookie is automatically fetched from Edge browser via CDP — no manual copy-paste needed. On first run, it launches Edge in debugging mode and waits for you to log in to `platform.xiaomimimo.com`. Expired cookies are auto-cleared and re-fetched. You can also set it manually via `mimo auth cookie`.
 
 ### `mimo language` · `mimo update` · `mimo uninstall`
 

@@ -1,13 +1,15 @@
 {
   "name": "mimo-cli",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "type": "module",
   "description": "MiMo AI Platform Command Line Interface",
   "bin": {
     "mimo": "dist/mimo.mjs"
   },
   "files": [
-    "dist/"
+    "dist/",
+    "!dist/mimo.exe",
+    "!dist/exe-entry.js.map"
   ],
   "main": "./dist/sdk.mjs",
   "types": "./dist/sdk.d.ts",
@@ -36,11 +38,14 @@
     "@clack/prompts": "^0.7.0",
     "es-toolkit": "^1.46.1",
     "openai": "^6.0.0",
-    "undici": "^6.21.1"
+    "playwright": "^1.60.0",
+    "undici": "^6.21.1",
+    "ws": "^8.21.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.0.0",
     "@types/bun": "latest",
+    "@types/ws": "^8.18.1",
     "bun-plugin-dts": "^0.4.0",
     "eslint": "^9.24.0",
     "typescript": "^6.0.0",

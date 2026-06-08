@@ -1,6 +1,8 @@
 import { defineCommand } from '../../command';
 import type { Config } from '../../config/schema';
-import { resolveCookie, fetchPlatformApi } from './shared';
+import { resolveCookie, fetchPlatformApi, checkCookieAuth } from './shared';
+import { CLIError } from '../../errors/base';
+import { ExitCode } from '../../errors/codes';
 import { t } from '../../i18n';
 import { formatOutput } from '../../output/formatter';
 
@@ -38,9 +40,10 @@ export const quotaRechargeCommand = defineCommand({
     const cookie = await resolveCookie(config, flags);
     const response = await fetchPlatformApi<RechargeResponse>(RECHARGE_API_URL, cookie);
 
+    checkCookieAuth(response);
+
     if (response?.code !== 0) {
-      process.stderr.write(t('quota.fetchFailed') + 'invalid response\n');
-      process.exit(1);
+      throw new CLIError(t('quota.fetchFailed') + 'invalid response', ExitCode.GENERAL);
     }
 
     const data = response?.data || {};

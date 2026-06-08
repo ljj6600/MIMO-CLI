@@ -1,7 +1,9 @@
 import { defineCommand } from '../../command';
 import type { Config } from '../../config/schema';
 import { resolveCredential } from '../../auth/resolver';
-import { resolveCookie, fetchPlatformApi } from './shared';
+import { resolveCookie, fetchPlatformApi, checkCookieAuth } from './shared';
+import { CLIError } from '../../errors/base';
+import { ExitCode } from '../../errors/codes';
 import { t } from '../../i18n';
 import { formatOutput } from '../../output/formatter';
 
@@ -67,8 +69,7 @@ async function fetchTokenPlanUsage(cookie: string, config: Config): Promise<void
     .filter(Boolean) as Record<string, string>[];
 
   if (results.length === 0) {
-    process.stderr.write(t('quota.fetchFailed') + 'no usage data returned\n');
-    process.exit(1);
+    throw new CLIError(t('quota.fetchFailed') + 'no usage data returned', ExitCode.GENERAL);
   }
 
   console.log(formatOutput(results, config));
@@ -111,9 +112,10 @@ async function fetchBalance(cookie: string, config: Config): Promise<void> {
   const data = response?.data || {};
   const unit = data.currency || 'CNY';
 
+  checkCookieAuth(response);
+
   if (response?.code !== 0) {
-    process.stderr.write(t('quota.fetchFailed') + 'invalid response\n');
-    process.exit(1);
+    throw new CLIError(t('quota.fetchFailed') + 'invalid response', ExitCode.GENERAL);
   }
 
   const results = BALANCE_CONFIGS

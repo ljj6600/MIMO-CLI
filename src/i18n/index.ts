@@ -179,6 +179,7 @@ const translations: Record<string, Record<Locale, string>> = {
   'cmd.authLogin.desc': { zh: '使用 MiMo API Key 登录（自动识别按量计费/TokenPlan）', en: 'Log in with a MiMo API key (auto-detects key type: Pay-as-you-go or TokenPlan)' },
   'cmd.authStatus.desc': { zh: '查看当前认证状态', en: 'Show current authentication status' },
   'cmd.authLogout.desc': { zh: '清除已保存的 API Key', en: 'Clear saved API key from config file' },
+  'cmd.authCookie.desc': { zh: '设置平台 Cookie（用于 quota 查询）', en: 'Set platform cookie (for quota queries)' },
   'cmd.configShow.desc': { zh: '显示当前配置', en: 'Display current configuration' },
   'cmd.configSet.desc': { zh: '设置配置项', en: 'Set a configuration value' },
   'cmd.update.desc': { zh: '更新 MiMo CLI', en: 'Self-update the MiMo CLI' },
@@ -394,6 +395,7 @@ const translations: Record<string, Record<Locale, string>> = {
 
   // ---- Auth 选项 ----
   'flag.auth.apiKey': { zh: '直接保存 API Key（跳过交互式输入）', en: 'API key to save (skips interactive prompt)' },
+  'flag.authCookie.cookie': { zh: '直接保存 Cookie（跳过交互式输入）', en: 'Cookie value to save (skips interactive prompt)' },
 
   // ---- Quota 选项 ----
   'flag.quota.cookie': { zh: '平台 Cookie（覆盖配置文件中的值）', en: 'Platform cookie (overrides config file value)' },
@@ -408,7 +410,16 @@ const translations: Record<string, Record<Locale, string>> = {
   'cmd.uninstall.desc': { zh: '卸载 exe 安装的 MiMo CLI', en: 'Uninstall exe-installed MiMo CLI' },
 
   // ---- Quota ----
-  'quota.noCookie': { zh: '未配置平台 Cookie。请先通过 --cookie 参数或 mimo config set platform_cookie <cookie> 设置。', en: 'Platform cookie not configured. Set it via --cookie flag or: mimo config set platform_cookie <cookie>' },
+  'quota.autoFetchCookie': { zh: '正在自动获取平台 Cookie...', en: 'Auto-fetching platform cookie...' },
+  'quota.launchingBrowser': { zh: '正在启动 Edge 浏览器...', en: 'Launching Edge browser...' },
+  'quota.openPlatformPage': { zh: '请在浏览器中打开 https://platform.xiaomimimo.com 并登录', en: 'Please open https://platform.xiaomimimo.com in the browser and log in' },
+  'quota.pageFound': { zh: '检测到平台页面，正在获取 Cookie...', en: 'Platform page detected, fetching cookie...' },
+  'quota.timeout': { zh: '等待超时，请确保浏览器已开启调试模式并打开了平台页面。', en: 'Timeout. Please ensure browser has debugging mode enabled and platform page is open.' },
+  'quota.cookieFetched': { zh: 'Cookie 获取成功！', en: 'Cookie fetched successfully!' },
+  'quota.browserLaunchFailed': { zh: '浏览器启动失败，请手动设置 Cookie。', en: 'Browser launch failed. Please set cookie manually.' },
+  'quota.autoFetchFailed': { zh: '自动获取 Cookie 失败，请手动输入。', en: 'Auto-fetch failed. Please enter cookie manually.' },
+  'quota.noCookie': { zh: '无法获取平台 Cookie。请先在浏览器中登录 https://platform.xiaomimimo.com，然后重试。', en: 'Cannot fetch platform cookie. Please log in to https://platform.xiaomimimo.com in your browser and try again.' },
+  'quota.cookieCleared': { zh: '已自动清除失效的 Cookie 配置。', en: 'Invalid cookie has been automatically cleared from config.' },
   'quota.fetching': { zh: '正在查询套餐用量...', en: 'Fetching quota usage...' },
   'quota.fetchFailed': { zh: '查询套餐用量失败：', en: 'Failed to fetch quota usage: ' },
   'quota.planName': { zh: '套餐类型', en: 'Plan Type' },
@@ -420,6 +431,19 @@ const translations: Record<string, Record<Locale, string>> = {
   'quota.cookieHint': { zh: '提示：Cookie 可从平台页面 (platform.xiaomimimo.com) 的浏览器开发者工具中获取。', en: 'Tip: Get the cookie from your browser developer tools on platform.xiaomimimo.com.' },
   'quota.cookiePrompt': { zh: '请输入平台 Cookie：', en: 'Enter your platform cookie:' },
   'quota.cookieSaved': { zh: 'Cookie 已保存，下次无需再输入。', en: 'Cookie saved. You won\'t need to enter it again.' },
+  'quota.cookieInvalid': { zh: '平台 Cookie 已失效或无效，无法完成请求。', en: 'Platform cookie is expired or invalid. Cannot complete the request.' },
+  'quota.cookieInvalidHint': { zh: '请重新获取 Cookie：\n  1. 在浏览器中登录 https://platform.xiaomimimo.com\n  2. 重新运行 mimo quota 命令，系统会自动获取 Cookie\n  或手动设置：mimo auth cookie', en: 'Please re-obtain your cookie:\n  1. Log in to https://platform.xiaomimimo.com in your browser\n  2. Re-run mimo quota command, the system will auto-fetch the cookie\n  Or set manually: mimo auth cookie' },
+
+  // ---- Cookie 设置 ----
+  'cookie.instructions': {
+    zh: '获取 Cookie 步骤：\n  1. 在浏览器中打开 https://platform.xiaomimimo.com 并登录\n  2. 按 F12 打开开发者工具\n  3. 切换到 Network（网络）面板\n  4. 找到名称为 balanceAlertConfig 的请求\n  5. 在请求详情中找到 Cookie 字段，复制其完整值\n  6. 粘贴到下方：',
+    en: 'Steps to get cookie:\n  1. Open https://platform.xiaomimimo.com in your browser and log in\n  2. Press F12 to open developer tools\n  3. Switch to the Network tab\n  4. Find the request named balanceAlertConfig\n  5. Copy the full Cookie value from the request headers\n  6. Paste it below:',
+  },
+  'cookie.prompt': { zh: '请粘贴平台 Cookie：', en: 'Paste your platform cookie:' },
+  'cookie.empty': { zh: 'Cookie 不能为空。', en: 'Cookie cannot be empty.' },
+  'cookie.saved': { zh: 'Cookie 已保存到配置文件，下次无需再输入。', en: 'Cookie saved to config file. You won\'t need to enter it again.' },
+  'cookie.noCookieProvided': { zh: '未提供 Cookie。', en: 'No cookie provided.' },
+  'cookie.nonInteractiveHint': { zh: '使用：mimo auth cookie --cookie "<cookie值>"', en: 'Use: mimo auth cookie --cookie "<cookie_value>"' },
   'quota.skKeyHint': { zh: '当前使用的是按量计费 Key（sk-），套餐用量仅适用于 TokenPlan Key（tp-）。按量计费没有套餐额度概念，费用根据实际使用量结算。', en: 'You are currently using a pay-as-you-go key (sk-). Quota usage only applies to TokenPlan keys (tp-). Pay-as-you-go has no plan allowance — you are billed based on actual usage.' },
   'quota.fetchingBalance': { zh: '正在查询账户余额...', en: 'Fetching account balance...' },
   'quota.fetchingUsage': { zh: '正在查询详细用量...', en: 'Fetching detailed usage...' },

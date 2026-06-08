@@ -12,6 +12,7 @@ import { initLocale, t } from './i18n';
 import { authLoginCommand } from './commands/auth/login';
 import { authStatusCommand } from './commands/auth/status';
 import { authLogoutCommand } from './commands/auth/logout';
+import { authCookieCommand } from './commands/auth/cookie';
 import { configShowCommand } from './commands/config/show';
 import { configSetCommand } from './commands/config/set';
 import { updateCommand } from './commands/update';
@@ -46,6 +47,7 @@ registry.register('tts voices', ttsVoicesCommand);
 registry.register('auth login', authLoginCommand);
 registry.register('auth status', authStatusCommand);
 registry.register('auth logout', authLogoutCommand);
+registry.register('auth cookie', authCookieCommand);
 registry.register('config show', configShowCommand);
 registry.register('config set', configSetCommand);
 registry.register('update', updateCommand);
@@ -62,6 +64,7 @@ const NO_AUTH_COMMANDS = [
   ['auth', 'login'],
   ['auth', 'status'],
   ['auth', 'logout'],
+  ['auth', 'cookie'],
   ['config', 'show'],
   ['config', 'set'],
   ['update'],

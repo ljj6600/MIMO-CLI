@@ -155,6 +155,7 @@ mimo language zh
 - **流式输出** — 逐 token 实时输出，所见即所得
 - **双 Key 管理** — 按量计费与 TokenPlan Key 一键切换
 - **用量查询** — 套餐用量、账户余额、详细用量、月度账单、累计充值，一键掌握
+- **Cookie 自动获取** — 通过 CDP 协议从 Edge 浏览器自动获取平台 Cookie，无需手动操作
 - **中英文界面** — 通过 `mimo language en` 自由切换
 - **安全防护** — API Key 仅存本地、输出自动脱敏、路径遍历防护
 
@@ -226,6 +227,7 @@ mimo auth login                    # 登录（保存 API Key）
 mimo auth login --api-key sk-xxx   # 非交互式登录
 mimo auth status                   # 查看认证状态
 mimo auth logout                   # 登出
+mimo auth cookie                   # 手动设置平台 Cookie（用于 quota 查询）
 
 mimo config show                   # 查看当前配置
 mimo config set --key timeout --value 600        # 设置超时时间
@@ -244,7 +246,7 @@ mimo quota bill                    # 月度账单
 mimo quota recharge                # 累计充值金额
 ```
 
-> Cookie 可从 `platform.xiaomimimo.com` 的浏览器开发者工具中获取，首次使用会提示输入并自动保存。
+> Cookie 会通过 CDP 协议从 Edge 浏览器自动获取，无需手动复制粘贴。首次运行时自动启动 Edge 调试模式，检测并等待 `platform.xiaomimimo.com` 页面登录。Cookie 失效时自动清除并重新获取。也可通过 `mimo auth cookie` 手动设置。
 
 ### `mimo language` · `mimo update` · `mimo uninstall`
 

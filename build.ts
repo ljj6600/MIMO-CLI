@@ -17,10 +17,10 @@ await build({
       process.env.npm_package_version ?? "0.1.0",
     ),
   },
-  external: ["undici"],
+  external: ["undici", "playwright"],
 });
 
-// Prepend Node shebang so the CLI works with `npx` / `npm install -g`
+// Prepend Node shebang so the CLI works with `npx` / `npm install -global`
 const cliPath = "./dist/mimo.mjs";
 const cliCode = readFileSync(cliPath, "utf-8");
 if (!cliCode.startsWith("#!")) {
@@ -36,7 +36,7 @@ await build({
   format: "esm",
   minify: false,
   sourcemap: true,
-  external: ["undici", "openai"],
+  external: ["undici", "openai", "playwright"],
 });
 
 // Optional: compile standalone Windows executable

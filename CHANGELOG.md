@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.1] - 2026-06-09
+
+### Added
+- **Cookie 自动获取**：`mimo quota` 系列命令执行时自动通过 CDP (Chrome DevTools Protocol) 从 Edge 浏览器获取平台 Cookie，无需手动复制粘贴
+- 自动启动 Edge 调试模式浏览器（`--remote-debugging-port` + 独立用户数据目录 `~/.mimo-browser`），避免与用户已打开的浏览器实例冲突
+- 自动检测浏览器中是否已打开 `platform.xiaomimimo.com` 页面，未打开时提示用户登录并等待（最长 120 秒轮询）
+- Cookie 获取支持 5 次重试机制，每次间隔 2 秒，解决页面加载中 Cookie 尚未就绪的问题
+- 新增 `cookie-fetcher.ts` 模块，封装 CDP 连接、WebSocket 通信、Cookie 提取等完整流程
+- 新增 9 个 i18n 翻译 key，覆盖自动获取 Cookie 全流程的中英文提示文本
+- 新增 `playwright`、`ws` 依赖，用于 CDP WebSocket 通信
+
+### Fixed
+- 修复长 Cookie 粘贴时 `promptLongText` 误判为空输入的问题，改用 `process.stdin` 事件流读取
+- 修复 `mimo quota` 系列命令 Cookie 失效时未清除配置中旧 Cookie 的问题
+- 修复 Cookie 获取成功但 API 请求偶发失败的问题：扩展 Cookie 域名匹配范围至 `.xiaomimimo.com`，并增加重试逻辑
+
+### Changed
+- `mimo quota` 系列命令 Cookie 解析流程重构：`--cookie` 参数 → 配置文件 → **CDP 自动获取** → 手动输入（fallback）
+- Cookie 失效时自动清除配置文件中的 `platform_cookie`，避免下次仍使用无效 Cookie
+- 错误处理方式从 `process.exit(1)` 改为 `throw CLIError`（异步安全，不会中断 Promise 链）
+- `errors/handler.ts` 返回类型从 `never` 改为 `void`，使用 `process.exitCode` 替代 `process.exit()`
+- `build.ts` 中 `external` 数组添加 `playwright`，避免打包进 bundle
+
 ## [0.2.0] - 2026-06-08
 
 ### Added
@@ -24,18 +47,6 @@ All notable changes to this project will be documented in this file.
 - 修复 `auth/logout.ts` 缺少 i18n 翻译
 - 修复 `config/set.ts` 缺少 i18n 翻译
 - 修复 `help.ts`、`update.ts`、`chat.ts` 等命令缺少 i18n 翻译
-
-## [0.1.5] - 2026-06-05
-
-### Fixed
-- SDK Chat 默认模型从旧名称 `MiMo-7B-RL` 修正为 `mimo-v2.5-pro`，与 CLI 命令对齐
-- SDK TTS 音色设计方法 `design()` 默认模型从 `mimo-v2.5-tts` 修正为 `mimo-v2.5-tts-voicedesign`
-- README 文档优化：以 "不用写一行代码，帮助你的 Agent 拥有 MiMo 的全部能力" 为主体重写
-
-## [0.1.4] - 2026-06-xx
-
-### Changed
-- 全面中文化 + openai v6 升级
 
 ## [0.1.0] - 2026-06-03
 

@@ -19,48 +19,60 @@ export async function promptText(
   return trimmed;
 }
 
-/**
- * 直接从 stdin 读取长文本（如 Cookie）。
- * @clack/prompts 的 text 无法处理超长粘贴内容，会返回 undefined；
- * readline 在 Windows 上会立即触发 close 事件。
- * 因此直接监听 stdin data 事件，逐块拼接直到遇到换行符。
- */
 export async function promptLongText(message: string): Promise<string> {
   process.stderr.write(message + '\n> ');
 
   return new Promise<string>((resolve, reject) => {
-    let input = '';
-    let settled = false;
-
-    // 确保 stdin 处于正常模式（非 raw mode），以支持行输入
     const isTTY = process.stdin.isTTY;
-    if (isTTY && process.stdin.isRaw) {
-      process.stdin.setRawMode(false);
-    }
 
-    const onData = (chunk: Buffer | string) => {
-      if (settled) return;
-      input += chunk.toString();
-      const newlineIdx = input.search(/[\r\n]/);
-      if (newlineIdx !== -1) {
-        settled = true;
-        cleanup();
-        const line = input.substring(0, newlineIdx).trim();
-        if (!line) {
-          reject(new Error('Input cannot be empty'));
+    if (isTTY) {
+      process.stdin.setRawMode(true);
+    }
+    process.stdin.setEncoding('utf8');
+    process.stdin.resume();
+
+    let input = '';
+
+    const onData = (chunk: string) => {
+      for (const ch of chunk) {
+        if (ch === '\n' || ch === '\r') {
+          if (input.length === 0) continue;
+          cleanup();
+          process.stderr.write('\n');
+          const trimmed = input.trim();
+          if (!trimmed) {
+            reject(new Error('Input cannot be empty'));
+          } else {
+            resolve(trimmed);
+          }
+          return;
+        }
+        if (ch === '\x03') {
+          cleanup();
+          process.stderr.write('\n');
+          reject(new Error('Operation cancelled'));
+          return;
+        }
+        if (ch === '\x7F' || ch === '\b') {
+          if (input.length > 0) {
+            input = input.slice(0, -1);
+            process.stderr.write('\b \b');
+          }
         } else {
-          resolve(line);
+          input += ch;
+          process.stderr.write(ch);
         }
       }
     };
 
     const cleanup = () => {
       process.stdin.removeListener('data', onData);
+      if (isTTY) {
+        try { process.stdin.setRawMode(false); } catch { /* ignore */ }
+      }
       process.stdin.pause();
     };
 
-    process.stdin.setEncoding('utf8');
-    process.stdin.resume();
     process.stdin.on('data', onData);
   });
 }
