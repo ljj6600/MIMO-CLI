@@ -6,3 +6,4 @@ dist/
 .env.local
 .npmrc
 CODE_WIKI.md
+.trae/
